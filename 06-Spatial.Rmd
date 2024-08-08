@@ -1,3 +1,5 @@
+# (PART) SDD IV : recherche reproductible {.unnumbered}
+
 # Statistiques spatiales {#spatial}
 
 ```{r setup, results='hide', warning=FALSE, include=FALSE}
@@ -747,8 +749,8 @@ m_rain_idw
 
 Le résultat est aussi un objet **stars** avec deux composantes :
 
-- `var1.pred`, les prédictions
-- `var1.var`, la variance estimée (plus elle est grande en un point, plus la prédiction est incertaine)
+-   `var1.pred`, les prédictions
+-   `var1.var`, la variance estimée (plus elle est grande en un point, plus la prédiction est incertaine)
 
 Dans le cas de DIP, la variance n'est pas calculée (la colonne contient uniquement des `NA`s). Cet objet est utilisable par {tmap} directement. Nous pouvons en extraire une composante à l'aide de l'opérateur `["composante",,]`. Donc, nous pouvons faire :
 

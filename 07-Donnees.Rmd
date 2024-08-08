@@ -1,5 +1,3 @@
-# (PART) SDD IV : recherche reproductible {.unnumbered}
-
 # Données particulières {#data}
 
 ```{r setup, results='hide', warning=FALSE, include=FALSE}
