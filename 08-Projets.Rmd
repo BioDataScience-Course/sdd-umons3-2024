@@ -16,7 +16,7 @@ Ce second module du cours SDD IV : recherche reproductible vous prépare à l'a
 
 ##### Prérequis {.unnumbered}
 
-Dans ce module, nous traiterons de RStudio et des projets RStudio, de R Markdown, de git et GitHub, ainsi que de divers outils de R pour importer, remanier, décrire et analyser des données biologiques. Toutes ces notions doivent être parfaitement connues avant d'aborder le présent module qui va vous emmener un niveau plus loin vers un gros projet constitué de plusieurs étapes successives dans l'analyse. Toutes ces notions ont été utilisées en routine dans les trois cours précédents, [SDD I](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2023/), [SDD II](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2023/) et SDD III (les six premiers modules du présent cours). Ainsi, si vous avez bien suivi ces trois cours-là, vous êtes en principe parfaitement préparé pour aborder cette matière.
+Dans ce module, nous traiterons de RStudio et des projets RStudio, de R Markdown, de git et GitHub, ainsi que de divers outils de R pour importer, remanier, décrire et analyser des données biologiques. Toutes ces notions doivent être parfaitement connues avant d'aborder le présent module qui va vous emmener un niveau plus loin vers un gros projet constitué de plusieurs étapes successives dans l'analyse. Toutes ces notions ont été utilisées en routine dans les trois cours précédents, [SDD I](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/), [SDD II](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/) et SDD III (les six premiers modules du présent cours). Ainsi, si vous avez bien suivi ces trois cours-là, vous êtes en principe parfaitement préparé pour aborder cette matière.
 
 ## Structurer un projet
 
@@ -73,13 +73,13 @@ La suite reprend et détaille les trois éléments principaux de votre projet :
 
 Nous avons à plusieurs reprises déjà abordé les points importants à prendre en compte pour représenter ses données sous un format informatique exploitable ensuite. Avant d'aller plus loin, relisez attentivement les sections suivantes :
 
--   [Acquisition de données](https://wp.sciviews.org/sdd-umons-2023/acquisition-de-donn%C3%A9es.html)
+-   [Acquisition de données](https://wp.sciviews.org/sdd-umons-2024/acquisition-de-donn%C3%A9es.html)
 
--   [Encodage des données dans un tableau cas par variables](https://wp.sciviews.org/sdd-umons-2023/tableaux-de-donn%C3%A9es.html#tableaux-cas-par-variables)
+-   [Encodage des données dans un tableau cas par variables](https://wp.sciviews.org/sdd-umons-2024/tableaux-de-donn%C3%A9es.html#tableaux-cas-par-variables)
 
--   [Ajout de métadonnées](https://wp.sciviews.org/sdd-umons-2022/tableaux-de-donn%C3%A9es.html#m%C3%A9tadonn%C3%A9es) avec utilisation d'un [dictionnaire des données](https://wp.sciviews.org/sdd-umons-2023/tableaux-de-donn%C3%A9es.html#dictionnaire-des-donn%C3%A9es)
+-   [Ajout de métadonnées](https://wp.sciviews.org/sdd-umons-2024/tableaux-de-donn%C3%A9es.html#m%C3%A9tadonn%C3%A9es) avec utilisation d'un [dictionnaire des données](https://wp.sciviews.org/sdd-umons-2024/tableaux-de-donn%C3%A9es.html#dictionnaire-des-donn%C3%A9es)
 
-Il est de plus intéressant de pouvoir rendre les données de sa recherche accessibles en respectant les normes et les règles de l'[Open Data](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2023/donn%25C3%25A9es-ouvertes.html).
+Il est de plus intéressant de pouvoir rendre les données de sa recherche accessibles en respectant les normes et les règles de l'[Open Data](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/donn%25C3%25A9es-ouvertes.html).
 
 Comme vous le voyez, toutes les grandes règles ont déjà été abordées dans le cadre des cours de sciences de données. La documentation précise et riche des données est une étape longue et fastidieuse. En pratique, elle est très souvent bâclée... et c'est dommage, car c'est leur **réutilisabilité** qui est impactée au final.
 

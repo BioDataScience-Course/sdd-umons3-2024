@@ -16,7 +16,7 @@ SciViews::R("ts", lang = "fr")
 
 ##### Prérequis {.unnumbered}
 
-Ce module nécessite d'être à l'aise avec R, RStudio et R Markdown. Les six premiers modules du cours 1 (en particulier, la [visualisation](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2023/visu1.html) et le [traitement des données](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2023/import.html)) doivent être acquis. La notion de corrélation ([module 12 du cours 1](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2023/correlation.html)) doit également être bien comprise au départ.
+Ce module nécessite d'être à l'aise avec R, RStudio et R Markdown. Les six premiers modules du cours 1 (en particulier, la [visualisation](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/visu1.html) et le [traitement des données](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/import.html)) doivent être acquis. La notion de corrélation ([module 12 du cours 1](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/correlation.html)) doit également être bien comprise au départ.
 
 ```{block2, type='note'}
 Nous utiliserons ici essentiellement le package R {pastecs} qui est une réécriture entre autres par l'un des auteurs de ce cours du logiciel PASSTEC 2000, un programme écrit en Visual Basic par le [Prof. Frédéric Ibañez](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4247415/) dans les années 1980, sous la direction de ce dernier. C'est au Prof. Ibañez que l'on doit d'avoir rassemblé un grand nombre de techniques utiles en écologie et en biologie en général en matière d'analyse de séries spatio-temporelles, et d'en avoir démontré l'utilité quelque fois pour la première fois.
@@ -206,7 +206,7 @@ Après avoir effectué un décalage (*lag* en anglais) d'un pas de temps, et moy
 
 $$L X_t = X_{t-1}$$
 
-Nous pouvons calculer la **corrélation** $r$, par exemple à l'aide du coefficient de corrélation de Pearson (ou de Spearman) entre les deux lignes du tableau obtenu en accolant la série de départ $X_t$ et la même série décalée $LX_t$, amputé des extrémités ne comportant pas de paires d'observations (la version de Spearman se calculera sur les rangs des observations, voir [module 12 du cours SDD I](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2023/association-de-deux-variables.html)) :
+Nous pouvons calculer la **corrélation** $r$, par exemple à l'aide du coefficient de corrélation de Pearson (ou de Spearman) entre les deux lignes du tableau obtenu en accolant la série de départ $X_t$ et la même série décalée $LX_t$, amputé des extrémités ne comportant pas de paires d'observations (la version de Spearman se calculera sur les rangs des observations, voir [module 12 du cours SDD I](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/association-de-deux-variables.html)) :
 
 $$r_{X_t,LX_t} = \frac{cov_{X_t,LX_t}}{\sqrt{S^2_{X_t} + S^2_{LX_t}}}$$
 

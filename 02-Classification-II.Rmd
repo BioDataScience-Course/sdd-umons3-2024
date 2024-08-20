@@ -142,7 +142,7 @@ Nous avons déjà étudié l'analyse discriminante linéaire dans le précédent
 
 ### Indiens diabétiques
 
-Afin d'explorer et comparer l'utilisation de différents algorithmes de classification supervisée, nous reprendrons notre jeu de données `pima` concernant une population d'Amérindiens qui sont connus pour compter un haut taux d'obèses et de diabétiques. Nous avions déjà utilisé ces données pour [illustrer l'ACP dans le cours de Science des Données biologiques II](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2023/analyse-en-composantes-principales.html). Pour rappel, le jeu de données se présente comme suit :
+Afin d'explorer et comparer l'utilisation de différents algorithmes de classification supervisée, nous reprendrons notre jeu de données `pima` concernant une population d'Amérindiens qui sont connus pour compter un haut taux d'obèses et de diabétiques. Nous avions déjà utilisé ces données pour [illustrer l'ACP dans le cours de Science des Données biologiques II](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/analyse-en-composantes-principales.html). Pour rappel, le jeu de données se présente comme suit :
 
 ```{r}
 SciViews::R("ml")
@@ -220,7 +220,7 @@ pima %>.%
 nrow(pima2)
 ```
 
-Dans ce second jeu de données, nous avons pu tout de même conserver `r nrow(pima2)` cas. [L'ACP que nous avions réalisée sur ces données](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2023/analyse-en-composantes-principales.html) nous montrait que la variance se répartir à 53% sur deux axes, mais qu'il faut considérer cinq axes pour capturer 90% de cette variance. Ceci suggère, comme la matrice de corrélation, que les différentes variables apportent chacune une information complémentaire. Au final, nous n'observions pas de séparation nette sur le graphique des individus de l'ACP entre la sous-population diabétique et celle qui ne l'est pas. Nous allons reconsidérer la question ici à l'aide de techniques plus spécifiques visant à *prédire* qui est diabétique ou non en fonction des huit (`pima1`) ou six (`pima2`) attributs à disposition, et ce, à l'aide de différents algorithmes de classification supervisée. Commençons par voir ce que cela donne avec l'ADL que nous connaissons maintenant bien, en utilisation, une validation croisée dix fois.
+Dans ce second jeu de données, nous avons pu tout de même conserver `r nrow(pima2)` cas. [L'ACP que nous avions réalisée sur ces données](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/analyse-en-composantes-principales.html) nous montrait que la variance se répartir à 53% sur deux axes, mais qu'il faut considérer cinq axes pour capturer 90% de cette variance. Ceci suggère, comme la matrice de corrélation, que les différentes variables apportent chacune une information complémentaire. Au final, nous n'observions pas de séparation nette sur le graphique des individus de l'ACP entre la sous-population diabétique et celle qui ne l'est pas. Nous allons reconsidérer la question ici à l'aide de techniques plus spécifiques visant à *prédire* qui est diabétique ou non en fonction des huit (`pima1`) ou six (`pima2`) attributs à disposition, et ce, à l'aide de différents algorithmes de classification supervisée. Commençons par voir ce que cela donne avec l'ADL que nous connaissons maintenant bien, en utilisation, une validation croisée dix fois.
 
 ```{r}
 set.seed(364)
