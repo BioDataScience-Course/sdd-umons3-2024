@@ -66,7 +66,7 @@ Pour réaliser une carte, nous utiliserons `chart()` comme d'habitude, mais en n
 Malheureusement, la version de `chart()` dans la SciViews Box 2024 ne supporte pas encore les objets **sf**. Le code suivant remédie à cette lacune (ajoutez ce code dans chacun de vos documents avant d'utiliser `chart()` pour faire des cartes). Il sera naturellement intégré dans la prochaine version du package {chart} et donc, dans la prochaine SciViews Box.
 
 ```{r}
-SciViews::R
+SciViews::R("spatial")
 
 chart.sf <- function(data, specif = aes(), formula = NULL, mapping = aes(), type = NULL, theme = theme_svmap, env = parent.frame()) {
   if (!missing(specif))
@@ -104,6 +104,16 @@ chart.sf <- function(data, specif = aes(), formula = NULL, mapping = aes(), type
     class(p) <- unique(c("Chart", class(p)))
   p
 }
+
+# Convenience functions for north arrow and scale
+# Equivalent to ggspatial::annotation_north_arrow but with different defaults
+annotation_north <- function(mapping = NULL, data = NULL,  ...,
+    location = "tr", height = unit(0.8, "cm"), width = unit(0.8, "cm"),
+    style = ggspatial::north_arrow_fancy_orienteering) {
+  ggspatial::annotation_north_arrow(mapping = mapping, data = data, ...,
+    location = location, height = height, width = width, style = style)
+}
+annotation_scale <- ggspatial::annotation_scale
 ```
 
 Ensuite, réaliser une carte du monde est enfantin :
@@ -113,17 +123,17 @@ chart(data = world) +
   geom_sf()
 ```
 
-Si nous ne voulons pas le fond grisé ni les méridiens, nous pouvons utiliser le thème `ggsn::blank()`. Nous verrons plus loin que le package {ggsn} permet d'autres annotations pour orienter et indiquer l'échelle sur la carte ensuite.
+Si nous ne voulons pas le fond grisé, nous pouvons utiliser `theme_minimal()`. Si nous ne voulons pas non plus les méridiens, nous utiliserons alors `theme_classic()`.
 
 ```{r}
 chart(data = world) +
   geom_sf() +
-  ggsn::blank()
+  theme_minimal()
 ```
 
 ##### À vous de jouer ! {.unnumbered}
 
-`r h5p(58, height = 270, toc = "Fonctions du package ggsn")`
+`r h5p(58, height = 270, toc = "Cartes avec le package ggplot2")`
 
 Là où cela devient intéressant, c'est que nous avons la possibilité d'utiliser les autres variables contenues dans le tableau **sf** pour annoter la carte. Par exemple, nous pouvons remplir les polygones (`%fill=%`) représentant les différents pays à l'aide d'une couleur en fonction de la variable `economy`. Une petite astuce toutefois : une formule doit obligatoirement contenir une variable `x` après le tilde. Or ici, nous ne voulons fournir que `fill`, mais ni `x`, ni `y` dans la formule. Pour cela, nous indiquons `~ 0` qui sera compris par `chart()` comme aucun `x` et aucun `y`. Ensuite, nous pourrons rajouter toutes les autres esthétiques comprises par {ggplot2} à la suite dans la formule sous la forme `%aes=% variable`, donc ici, `%fill=% economy`.
 
@@ -142,19 +152,17 @@ Dans la suite de cette partie, nous verrons successivement comment ajouter une �
 
 ### Échelle et orientation
 
-Toute carte qui se respecte contient deux éléments importants : une orientation de la carte via l'indication du nord géographique, et une échelle qui permet d'avoir une idée des distances. Nous allons ajouter ces éléments à notre carte grâce au package [{ggsn}](http://oswaldosantos.github.io/ggsn/).
+Toute carte qui se respecte contient deux éléments importants : une orientation de la carte avec l'indication du nord géographique, et une échelle qui permet d'avoir une idée des distances. Nous allons ajouter ces éléments à notre carte grâce au package [{ggspatial}](https://paleolimbot.github.io/ggspatial/).
 
-La fonction `ggsn::north()` oriente le nord sur la carte, tandis que `ggsn::scalebar()` ajoute une barre d'échelle. Ces deux fonctions prennent comme premier argument, le jeu de données utilisé. Pour `ggsn::scalebar()` il faut aussi indiquer pas mal de choses pour paramétrer l'échelle, en particulier, la distance et l'unité. Cela demande quelques essais et erreurs avant d'avoir une barre d'échelle correcte. Par exemple pour l'Italie, cela donne :
+La fonction `annotation_north()` oriente le nord sur la carte, tandis que `annotation_scale()` ajoute une barre d'échelle. Ces deux fonctions prennent comme premier argument, le jeu de données utilisé. La fonction `annotation_scale()` nous averti si les distances varient sur la carte de plus de 10% (lié à la fois à la projection choisie et à la zone géographique représentée). Par exemple pour l'Italie, cela donne :
 
 ```{r}
 italy <- filter(world, name == "Italy")
 chart(italy) +
   geom_sf() +
-  ggsn::blank() +
-  ggsn::north(italy, location = "topright", symbol = 3) +
-  ggsn::scalebar(italy, dist = 150, dist_unit = "km", location = "bottomleft",
-    transform = TRUE, height = 0.015,
-    st.dist = 0.02, st.size = 3, border.size = 0.5)
+  theme_minimal() +
+  annotation_north() +
+  annotation_scale()
 ```
 
 ### Importation de "shapefiles"
@@ -167,6 +175,8 @@ Les fonds de cartes sont principalement stockés dans des fichiers au format [**
 ##### À vous de jouer ! {.unnumbered}
 
 `r h5p(60, height = 270, toc = "Fonds de cartes")`
+
+<!-- TODO: les shapefiles sont un format déprécié par rapport à un format base sur SQLite dont j'ai oublié le nom ?  Mais les shapefiles sont tout de même encore très répandus... -->
 
 La fonction `st_read()` permet de lire ces données dans R. Attention, les fichiers au format **shapefile** (dont l'extension est `.shp`) sont associés à trois autres fichiers indispensables à la réalisation de votre carte (avec les extensions `.shx`, `.dbf` et `.prj`). Si, par exemple, vous avez placé ces fichiers dans le sous-répertoire `data` avec le nom `europe`, vous ferez :
 
@@ -264,7 +274,7 @@ Pour les Européens, par exemple, cette zone du monde est difficilement reconnai
 chart(data = s_africa_sa) +
   geom_sf() +
   geom_sf_text(aes(label = name), size = 3) +
-  ggsn::north(s_africa_sa) +
+  annotation_north() +
   labs(x = "", y = "")
 ```
 
@@ -298,7 +308,7 @@ Nous constatons que le tableau a été transformé. Nos colonnes `lat` et `lon` 
 chart(data = s_africa_sa) +
   geom_sf(fill = "white") +
   geom_sf(data = s_capitals_sa) +
-  ggsn::north(s_africa_sa, symbol = 3)
+  annotation_north()
 ```
 
 Et bien sûr, nous pouvons aussi ajouter le nom de ces capitales sur la carte comme ceci :
@@ -309,7 +319,7 @@ chart(data = s_africa_sa) +
   geom_sf(data = s_capitals_sa) +
   geom_sf_label(data = s_capitals_sa, aes(label = capital),
     size = 3, fill = "lightgray", hjust = 1, vjust = 0.5) +
-  ggsn::north(s_africa_sa, symbol = 3)
+  annotation_north()
 ```
 
 Notez que, à chaque addition d'une couche sur le graphique à l'aide de l'opérateur `+`, vous êtes libres de redéfinir les données (`data=`), ou des propriétés (on dit aussi des "esthétiques") telles que `fill=`. Les données et les esthétiques fournies via la formule dans `chart()` constituent des valeurs par défaut utilisées si elles ne sont pas redéfinies explicitement à chaque appel des fonctions `geom_xxx()`. Donc ici nous utilisons deux fois `geom_sf()` successivement, mais l'effet est très différent, car pour la première nous utilisons les données par défaut définies dans `chart()` (`s_africa_sa`), alors qu'au second appel, nous redéfinissons les données comme étant `s_capitals_sa`. De même, pour `geom_sf_label()` nous sommes obligés de repréciser `data = s_capitals_sa` sinon la fonction utilise à nouveau les données par défaut `s_africa_sa`. Vous imaginez aisément l'immense flexibilité que ce système autorise, en particulier pour la superposition de couches d'informations complémentaires fournies via divers objets **sf** sur vos cartes.
