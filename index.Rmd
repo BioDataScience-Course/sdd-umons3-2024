@@ -57,7 +57,7 @@ Cet ouvrage interactif est le troisième volume d'une série de trois ouvrages t
 
 -   [Science des données IV : recherche reproductible](http://applications.umons.ac.be/web/fr/pde/2024-2025/ue/US-M2-BIOEFA-015-M.htm) (SDD IV) cours à option donné aux deuxièmes années des mêmes Masters, et dont le responsable est également Philippe Grosjean
 
-La matière est divisée en six modules de six heures chacun en présentiel pour SDD III, et six modules également pour SDD IV. Chaque module nécessite environ huit heures (variable, en fonction de votre rythme et de votre technique d'apprentissage entre six et dix heures) de travail à domicile. **Cette matière fait suite aux deux premiers cours dont les contenus sont considérés comme assimilés (voir [cours SDD I](https://wp.sciviews.org/sdd-umons){target="top"} et [cours SDD II](https://wp.sciviews.org/sdd-umons2){target="top"}).**
+La matière est divisée en cinq modules de six heures chacun en présentiel pour SDD III, et cinq modules également pour SDD IV. Chaque module nécessite environ dix heures (variable, en fonction de votre rythme et de votre technique d'apprentissage entre huit et douze heures) de travail à domicile. **Cette matière fait suite aux deux premiers cours dont les contenus sont considérés comme assimilés (voir [cours SDD I](https://wp.sciviews.org/sdd-umons){target="top"} et [cours SDD II](https://wp.sciviews.org/sdd-umons2){target="top"}).**
 
 ### SDD III : exploration et prédiction {.unnumbered}
 
@@ -77,7 +77,7 @@ Le matériel pédagogique, rassemblé dans ce syllabus interactif, est aussi var
 
 -   des [exercices H5P](http://www.h5p.org) en ligne repérables par le logo [![h5p](images/list-h5p.png)](https://wp.sciviews.org/h5p/){target="top"} sur lequel vous pouvez cliquer pour avoir plus d'infos sur leur utilisation,
 
--   des [applications Shiny](https://shiny.rstudio.com/) qui sont des véritables petits programmes avec interface Web écrits en R. Ils vous démontrent "en live" certains concepts. Ces applications doivent être lancées en cliquant sur l'image contenant le logo [![app](images/list-app.png)](https://wp.sciviews.org/shiny_app/){target="top"} et elles doivent être quittées avec le bouton `Quit` ou `Quit & Save` si l'enregistrement est activé. N'oubliez pas de soumettre votre réponse avec le bouton `Submit`. Si le serveur distant est trop lent ou indisponible, il est aussi possible de lancer ces applications Shiny directement dans RStudio (voir le message en italique qui apparaît en dessous de l'application),
+-   des [applications Shiny](https://shiny.rstudio.com/) qui sont des véritables petits programmes avec interface Web écrits en R. Ils vous démontrent "en live" certains concepts. Ces applications doivent être lancées en cliquant sur l'image contenant le logo [![app](images/list-app.png)](https://wp.sciviews.org/shiny_app/){target="top"} et elles doivent être quittées avec le bouton `Quit` ou `Savz & Quit` si l'enregistrement est activé. Vous soumettez une réponse avec le bouton `Submit` et une notification vous indique le niveau de réussite de l'exercice. Votre activité n'est prise en compte que si vous cliquez ensuite sur `Save & Quit`. Si le serveur distant est trop lent ou indisponible, il est aussi possible de lancer ces applications Shiny directement dans RStudio (voir le message en italique qui apparaît en dessous de l'application),
 
 -   des [tutoriels interactifs learnr](https://rstudio.github.io/learnr/). Vous pourrez exécuter ces tutoriels directement sur votre ordinateur dans RStudio, et vous aurez alors accès à des pages Web réactives contenant des explications, des exercices et des quiz en ligne dans votre environnement de travail habituel. Ces tutoriels sont repérables dans l'ouvrage par l'icône suivante [![tuto](images/list-tuto.png)](https://wp.sciviews.org/tutorial/){target="top"},
 
@@ -95,11 +95,11 @@ Tout ce matériel est accessible à partir du [site Web du cours](https://wp.sci
 ::: {.S-BIOG-025 .S-BIOG-077}
 Tout ce matériel est accessible à partir du [site Web du cours](https://wp.sciviews.org){target='top'}, du présent syllabus interactif et de Moodle pour les étudiants de l'UMONS.
 
-Les travaux personnels seront à réaliser une machine virtuelle préconfigurée, la **'SciViews Box'**, que nous installerons ensemble durant la séance introductive. **Nous installerons une nouvelle version de la SciViews Box** et vous aurez différentes manipulations à réaliser dans SaturnCloud pour pouvoir utiliser le matériel du cours. Il est donc très important que vous soyez présent•e durant cette première séance !
+Les travaux personnels seront à réaliser dans une machine virtuelle préconfigurée, la **'SciViews Box'**, que nous installerons ensemble durant la séance introductive. **Nous installerons une nouvelle version de la SciViews Box** et vous aurez différentes manipulations à réaliser dans Saturn Cloud pour pouvoir utiliser le matériel du cours. Il est donc très important que vous soyez présent•e durant cette première séance !
 
 Vous pourrez poser vos questions par mail à l'adresse [sdd@sciviews.org](mailto:sdd@sciviews.org) ou dans les "issues" du dépôt GitHub de ce cours. L'accès à ce dépôt vous sera donné au début du cours.
 
-Un **outil d'annotation** et de surlignage est intégré dans le cours en ligne. Il vous permet\ :
+Un **outil d'annotation** et de surlignage est intégré dans le cours en ligne. Il vous permet :
 
 - de personnaliser votre cours en écrivant dedans comme vous le feriez avec un syllabus papier (annotations privées... tout ce qui vous passe par la tête).
 
@@ -209,6 +209,8 @@ Vous pouvez aussi directement créer une issue depuis RStudio. Voyez le fichier 
 
 ## Planning des séances {#temps .unnumbered}
 
+Ceci est le planning des séances pour SDD III. Pour SDD IV, le planning est plus souple et défini de commun accord avec les étudiants qui se sont inscrits à cette UE pour s'adapter au mieux à leurs contraintes (stages, mémoire...)
+
 | Module            | Préparation pour le ... | Fin N1-3         | Projet N4                  | Challenge            | Interrogation        |
 |-------------------|-------------------------|------------------|----------------------------|----------------------|----------------------|
 | *(install party)* | `r !"{W[4]+1}"`         |                  |                            |                      |                      |
@@ -240,4 +242,3 @@ Vous pouvez aussi directement créer une issue depuis RStudio. Voyez le fichier 
 
 *Notez les dates clés dans vos agendas. Les informations ci-dessus sont données à titre indicatif pour vous permettre de planifier votre travail. Elles pourraient toutefois légèrement évoluer au cours de l'année académique en fonction des impondérables.*
 
-Pour le cours de science des données biologiques IV, le travail se fait sur base de co-construction de savoir. Le planning est plus souple et défini de commun accord avec les étudiants qui se sont inscrit à cette UE.

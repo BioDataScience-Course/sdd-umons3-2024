@@ -20,13 +20,13 @@ SciViews::R # We don't add "ml" here to show later on what it gives
 
 Avant de vous lancer tête baissée dans de la matière nouvelle, assurez-vous d'avoir installé la SciViews Box `r learnitdown$svbox`. Si ce n'est pas encore fait, retournez à la [page d'accueil pour bien débuter](https://wp.sciviews.org).
 
-Vous devez être à l'aise dans l'utilisation de R, RStudio et (R) Markdown.
+Vous devez être à l'aise dans l'utilisation de R, RStudio, (R) Markdown/Quarto, ainsi que Git et GitHub. Si ce n'est pas le cas, l'[annexe B du cours de Science des données I](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/prise.html) devraient vous aider à vous remettre à niveau.
 
 ##### À vous de jouer ! {.unnumbered}
 
 `r h5p(159, height = 270, toc = NULL)`
 
-Vous devez aussi maîtriser les bases de Git et de GitHub (avoir un compte GitHub, être capable de cloner un dépôt localement, travailler avec l'onglet **Git** de RStudio pour faire un "commit", "push" et "pull").
+Vous devez maîtriser les bases de Git et de GitHub (avoir un compte GitHub, être capable de cloner un dépôt localement, travailler avec l'onglet **Git** de RStudio pour faire un "commit", "push" et "pull").
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -34,7 +34,7 @@ Vous devez aussi maîtriser les bases de Git et de GitHub (avoir un compte GitHu
 
 L'utilisation de tous ces outils a été expliquée dans les cours précédents [SDD I](https://wp.sciviews.org/sdd-umons) et [SDD II](https://wp.sciviews.org/sdd-umons2). Nous ne reviendrons pas dessus et cette matière est considérée comme acquise.
 
-Outre les outils, ce cours s'appuie sur des notions que nous avons déjà abordées dans le cours de [science des données biologiques partie 2](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/hierarchique.html) la notion de **classification non supervisée**. De même, la modélisation (via les **régressions**) a aussi fait l'objet d'une attention particulière dans le [cours précédent](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/lm.html). Toutes ces connaissances vont servir de pilier de base pour ce que nous étudierons ensemble dans ce module, ainsi que dans les deux suivants concernant la classification supervisée.
+Outre les outils, ce cours s'appuie sur des notions que nous avons déjà abordées dans le cours de [science des données biologiques 2](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/cah-kmeans-div.html) la notion de **classification non supervisée**. De même, la modélisation (via les **régressions**) a aussi fait l'objet d'une attention particulière dans le [cours précédent](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/lm.html). Toutes ces connaissances vont servir de pilier de base pour ce que nous étudierons ensemble dans ce module, ainsi que dans les deux suivants concernant la classification supervisée.
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -51,7 +51,7 @@ if (exists("assignment"))
     course.ids = c(
       'S-BIOG-025'         = !"C01Ia_{YY}M_debug"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/qq523ReF"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/j8zZrT-k"),
     course.starts = c(
       'S-BIOG-025'         = !"{W[4]+1} 08:00:00"),
     course.ends = c(
@@ -66,7 +66,7 @@ if (exists("assignment"))
 
 Rappelez-vous, la **classification** sert à regrouper les individus d'un jeu de données en différents groupes ou **classes**. Lorsque vous avez utilisé la classification hiérarchique ascendante ou le dendrogramme, vous avez réalisé de la classification *non* supervisée. La classification *non* supervisée permet de choisir des classes librement sur base de l'information de similitude ou différence entre les individus contenus dans le jeu de données.
 
-Nous allons aborder maintenant la **classification supervisée**. La classification supervisée (une sous-partie de l'apprentissage machine ou *"machine learning"* en anglais) permet d'utiliser un ordinateur pour lui faire apprendre à classer des objets selon nos propres critères que nous spécifions par ailleurs. Par exemple, en biologie, nous sommes amenés à classer le vivant (la fameuse classification taxonomique selon la [nomenclature binomiale de Linné](https://www.tela-botanica.org/2018/11/carl-von-linne-pere-de-la-classification-des-plantes-missionbotanique/)). Nous pourrions être amenés à nous faire seconder par un ordinateur pour classer nos plantes en herbier, nos insectes en collections ... ou nos photos d'oiseaux ou de poissons. À partir du moment où nous pouvons collecter ou mesurer différentes caractéristiques quantitatives ou qualitatives sur chaque individu, et que pour certains, nous en connaissons le nom scientifique, la classification supervisée pourrait être utilisée pour classer automatiquement d'autres individus, uniquement sur base des mêmes mesures. Mais ceci n'est qu'un exemple d'application possible parmi beaucoup d'autres en biologie...
+Nous allons aborder maintenant la **classification supervisée** (un sous-ensemble de l'apprentissage machine ou *"machine learning"* en anglais). Elle permet d'utiliser un ordinateur pour lui faire apprendre à classer des objets selon nos propres critères que nous spécifions par ailleurs. Par exemple, en biologie, nous sommes amenés à classer le vivant (la fameuse classification taxonomique selon la [nomenclature binomiale de Linné](https://www.tela-botanica.org/2018/11/carl-von-linne-pere-de-la-classification-des-plantes-missionbotanique/)). Nous pourrions être amenés à nous faire seconder par un ordinateur pour classer nos plantes en herbier, nos insectes en collections... ou nos photos d'oiseaux ou de poissons. À partir du moment où nous pouvons collecter ou mesurer différentes caractéristiques quantitatives ou qualitatives sur chaque individu, et que pour certains, nous en connaissons le nom scientifique, la classification supervisée pourrait être utilisée pour classer automatiquement d'autres individus, uniquement sur base des mêmes mesures. Mais ceci n'est qu'un exemple d'application possible parmi beaucoup d'autres en biologie...
 
 ```{block2, type='note'}
 Les techniques de classification supervisée font l'objet d'une effervescence toute particulière ces derniers temps, en particulier dans leurs versions d'apprentissage profond ou *deep learning* en anglais. Ces méthodes sont, en général (mais pas obligatoirement pour les approches plus traditionnelles) appliquées sur de très gros jeux de données contenant des dizaines de milliers, des centaines de milliers, voire des millions, ou d'avantage d'observations. C'est précisément ce très grand nombre d'observations qui mérite que nous essayions d'automatiser leur classement.
@@ -78,7 +78,7 @@ Un jeu de données est composé d'observations (les lignes du tableau) et de var
 
 `r h5p(162, height = 270, toc = "Vocabulaire de la classification supervisée")`
 
-En taxonomie assistée par ordinateur, nous cherchons donc à accélérer le dépouillement de gros échantillons en identifiant de manière automatique (ou semi-automatique) la faune et/ou la flore qui les composent. L'approche la plus souvent employée est l'analyse d'image pour mesurer des caractères visuels sur ces photographies. Il s'agit donc d'une classification sur base de critères morphologiques. Les organismes qui composent la faune et/ou la flore sont les items et les critères morphologiques sont les attributs. Vous avez certainement déjà rêvé d'avoir quelqu'un qui fait vos identifications à votre place... pourquoi pas votre ordinateur ?
+En taxonomie assistée par ordinateur, nous cherchons donc à accélérer le dépouillement de gros échantillons en identifiant de manière automatique (ou semi-automatique) la faune et/ou la flore qui les composent. L'approche le plus souvent employée est l'analyse d'image pour mesurer des caractères visuels sur ces photographies. Il s'agit donc d'une classification sur base de critères morphologiques. Les organismes qui composent la faune et/ou la flore sont les items et les critères morphologiques sont les attributs. Vous avez certainement déjà rêvé d'avoir quelqu'un qui fait votre travail à votre place... pourquoi pas votre ordinateur ?
 
 Parmi tous les items, on va choisir un sous-ensemble représentatif que l'on classe manuellement sans erreur. On obtient donc un ensemble de groupes connus et distincts. On va diviser ce sous-ensemble en un **set d'apprentissage** pour entraîner l'algorithme de classification, et un **set de test** pour en vérifier les performances.
 
@@ -97,12 +97,12 @@ Les trois phases sont appliquées sur des individus *différents*, donc souvent 
 
 Vous devez également veiller à ce qu'il n'y ait pas de données manquantes, si la méthode de classification utilisée ne les supporte pas (cas le plus fréquent). Les modifications éventuelles des données sont donc à réaliser *avant* de séparer le tableau de données initial en set d'apprentissage et set de test. De cette façon, le pré-traitement n'est effectué qu'une seule fois, et nous sommes certains que les deux tableaux d'apprentissage et de test sont conformes après séparation. Pour le déploiement, n'oubliez pas d'effectuer les mêmes préparatifs des variables avant de prédire les classes à partir de ce troisième tableau.
 
-Dans R, une série de packages prévus pour fonctionner ensemble selon un système cohérent appelé **[tidymodels](https://www.tidymodels.org)** offre une autre façon plus flexible de préparer les attributs, ce que l'on appelle en anglais le *feature engineering*, via le package {[recipes](https://recipes.tidymodels.org/)}. La transformation est encodée dans le classifieur lui-même et est appliquée automatiquement de la même façon sur le set de test, de validation ou pour toute prédiction ultérieure. Dans ce cas, il est préférable, au contraire, de partir des variables brutes ayant été altérées au minimum.
+Dans R, une série de packages prévus pour fonctionner ensemble selon un système cohérent appelé **[tidymodels](https://www.tidymodels.org)** offre une autre façon plus flexible de préparer les attributs, ce que l'on appelle en anglais le *feature engineering*, grâce au package {[recipes](https://recipes.tidymodels.org/)}. La transformation est encodée dans le classifieur lui-même et est appliquée automatiquement de la même façon sur le set de test, de validation ou pour toute prédiction ultérieure. Dans ce cas, il est préférable, au contraire, de partir des variables brutes ayant été altérées à minima.
 ```
 
-Il y a de très nombreux domaines d'applications de ces techniques de classification supervisée de type *"machine learning"*. Par exemple en médecine, ces techniques s'utilisent pour analyser les mesures effectuées par un scanner, un système de radiographie aux rayons X, un électrocardiogramme ou un électroencéphalogramme... pour y détecter des anomalies. Votre moteur de recherche favori sur Internet utilise ces techniques pour classer les pages en "pertinentes" et "non pertinentes". La reconnaissance vocale ou de l'écriture manuscrite entrent dans cette catégorie également, de même que l'analyse de sentiment sur base de texte (déterminer l'état d'esprit de l'auteur du texte sur base des mots et expressions qu'il utilise).
+Il y a de très nombreux domaines d'applications de ces techniques de classification supervisée de type *"machine learning"*. Par exemple en médecine, elles s'utilisent pour analyser les mesures effectuées par un scanner, un système de radiographie aux rayons X, un électrocardiogramme ou un électroencéphalogramme... pour y détecter des anomalies. Votre moteur de recherche favori sur Internet utilise ces techniques pour classer les pages en "pertinentes" et "non pertinentes". La reconnaissance vocale ou de l'écriture manuscrite entrent dans cette catégorie également, de même que l'analyse de sentiment sur base de texte (déterminer l'état d'esprit de l'auteur du texte sur base des mots et expressions qu'il utilise).
 
-Il faut s'attendre à ce que dans quelques années, des algorithmes plus efficaces, et des ordinateurs plus puissants pourront effectuer des tâches aujourd'hui dévolues à des spécialistes, comme le médecin spécialisé en radiographie pour l'exemple cité plus haut. Nous sommes même à l'aube des véhicules capables de conduire tous seuls, sur base de l'analyse des images fournies par leurs caméras ! Et bien sûr... les LLM (*large language models* en anglais) font une percée dans la vie de monsieur tout le monde avec ChatGPT et des dizaines de systèmes similaires. Ces systèmes, basés sur l'apprentissage profond, effectuent également une sorte de classification supervisée très élaborée des mots les plus probables dans un discours l'un après l'autre... ce qui finit par former un texte original qui ressemble à ce qu'un humain aurait écrit (mais parfois le sens laisse à désirer, parfois pas) !
+Il faut s'attendre à ce que dans quelques années, des algorithmes plus efficaces, et des ordinateurs plus puissants pourront effectuer des tâches aujourd'hui dévolues à des spécialistes, comme le médecin spécialisé en radiographie pour l'exemple cité plus haut. Nous sommes même à l'aube des véhicules capables de conduire tous seuls, sur base de l'analyse des images fournies par leurs caméras ! Et bien sûr... les LLM (*large language models* en anglais) ont récemment une percée dans la vie de monsieur tout le monde avec ChatGPT et des dizaines de systèmes similaires. Ces systèmes, basés sur l'apprentissage profond, effectuent également une sorte de classification supervisée très élaborée des mots les plus probables dans un discours l'un après l'autre... ce qui finit par former un texte original qui ressemble à ce qu'un humain aurait écrit (mais parfois le sens laisse à désirer, parfois pas) ! Le même principe est également appliqué pour créer ou retoucher des images ou des vidéos.
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -110,7 +110,7 @@ Il faut s'attendre à ce que dans quelques années, des algorithmes plus efficac
 
 ### Conditions d'application
 
-Ces outils ont très certainement éveillé votre curiosité. Imaginez qu'à l'avenir il ne sera peut plus utile d'apprendre la classification des bourdons (clin d'œil à un des laboratoires de l'Université de Mons). Un ordinateur pourra le faire à votre place. Il y a néanmoins certaines conditions d'application à satisfaire préalablement afin de pouvoir utiliser efficacement l'apprentissage machine ou "machine learning" :
+Il y a néanmoins certaines conditions d'application à satisfaire préalablement pour pouvoir utiliser efficacement l'apprentissage machine :
 
 -   **Tous les groupes sont connus et disjoints**. Chaque cas appartient à une et une seule classe (sinon, refaire un découpage plus judicieux des classes). Un individu ne peut appartenir simultanément à deux ou plusieurs classes, et nous ne pouvons pas rencontrer de cas n'appartenant à aucune classe. Éventuellement, rajouter une classe fourre-tout nommée "autre" pour que cette condition puisse être respectée.
 
@@ -118,7 +118,7 @@ Ces outils ont très certainement éveillé votre curiosité. Imaginez qu'à l'a
 
 -   **Toute la variabilité est représentée dans le set d'apprentissage**. Vous devez vous assurer de rassembler les individus représentant toute la variabilité de chaque classe pour la phase d'apprentissage (et de test aussi).
 
--   **Les mesures utilisées sont suffisamment discriminantes entre les classes**. Vous devez vous arranger pour définir et mesurer des attributs qui permettent de séparer efficacement les classes. Vous pourrez le constater visuellement en représentant, par exemple, deux attributs quantitatifs sur un graphique en nuage de points, et en y plaçant les points représentant vos individus en couleurs différentes en fonction de leurs classes. Si des regroupements bien distincts sont visibles sur le graphique, vous êtes bons ... sinon c'est mal parti. Utilisez éventuellement des techniques comme l'analyse des composantes principales (ACP) pour visualiser de manière synthétique un grand nombre d'attributs. L'**ingénierie et sélection judicieuse des attributs** est une partie cruciale, mais difficile de la classification supervisée. L'apprentissage profond ("deep learning") tente de s'en débarrasser en incluant cette partie du travail dans le programme d'apprentissage lui-même.
+-   **Les mesures utilisées sont suffisamment discriminantes entre les classes**. Vous devez vous arranger pour définir et mesurer des attributs qui permettent de séparer efficacement les classes. Vous pourrez le constater visuellement en représentant, par exemple, deux attributs quantitatifs sur un graphique en nuage de points, et en y plaçant les points représentant vos individus en couleurs différentes en fonction de leurs classes. Si des regroupements bien distincts sont visibles sur le graphique, vous êtes bons... sinon c'est mal parti. Utilisez éventuellement des techniques comme l'analyse des composantes principales (ACP) pour visualiser de manière synthétique un grand nombre d'attributs. L'**ingénierie et sélection judicieuse des attributs** est une partie cruciale, mais difficile de la classification supervisée. L'apprentissage profond ("deep learning") tente de s'en débarrasser en incluant cette partie du travail dans le programme d'apprentissage lui-même.
 
 -   **Le système est statique : pas de changement des attributs des items à classer par rapport à ceux des sets d'apprentissage et de test**. Des situations typiques qui peuvent se produire et qui ruinent votre travail sont un été particulièrement chaud et sec par rapport aux saisons pendant lesquelles des plantes ont été prélevées pour le set d'apprentissage. Par conséquent, vos fleurs ont des caractéristiques morphologiques différentes suite à cette longue canicule et sont donc moins bien, voire, totalement mal classées. Un autre exemple serait le changement d'appareil de RMN qui donne des images légèrement différentes du précédent. Le set d'apprentissage de la première RMN ne permet alors peut-être pas de créer un classifieur capable de classer valablement les analyses réalisées avec le second appareil.
 
@@ -136,7 +136,7 @@ Avant de nous lancer dans la découverte de différents algorithmes, nous devons
 
 ### Matrice de confusion
 
-L'outil le plus important pour évaluer la qualité d'un algorithme de classification supervisée est la **matrice de confusion**. Cette matrice est représentée sous la forme d'un *tableau de contingence à double entrée* qui croise les classes prédites par l'ordinateur avec les classes prédites manuellement pour ces mêmes items. En cas de concordance, les items sont dénombrés sur la diagonale de cette matrice carrée. Donc, tous les dénombrements hors diagonale représentent des erreurs faites par l'ordinateur (en vertu du postulat de base que le classement manuel est établi sans ambiguïté et sans erreur).
+L'un des outils les plus importants pour évaluer la qualité d'un algorithme de classification supervisée est la **matrice de confusion**. Cette matrice est représentée sous la forme d'un *tableau de contingence à double entrée* qui croise les classes prédites par l'ordinateur avec les classes prédites manuellement pour ces mêmes items. En cas de concordance, les items sont dénombrés le long de la diagonale de cette matrice carrée. Donc, tous les dénombrements hors diagonale représentent des erreurs faites par l'ordinateur (en vertu du postulat de base que le classement manuel est établi sans ambiguïté et sans erreur).
 
 |              | **Espèce 1** | **Espèce 2** | **Espèce 3** | **Espèce 4** |
 |--------------|--------------|--------------|--------------|--------------|
@@ -170,7 +170,7 @@ knitr::kable(mandora, col.names = c("Mandora", "Pas mandora"),
   caption = "Matrice de confusion dont les colonnes représentent la classification par ordinateur et les lignes la classification manuelle pour les mandoras.")
 ```
 
-Les métriques principales sont :
+Les métriques principales dans cette dernière matrice de confusion réduite à une taille de 2x2 (on parle aussi de **classification binaire**) sont :
 
 -   TP : Vrais positifs (*True Positive* en anglais). C'est le nombre d'items de la classe d'intérêt correctement classé. Concernant nos mandoras, il s'agit du nombre d'items classé comme des mandoras par l'ordinateur et qui sont effectivement des mandoras.
 
@@ -196,7 +196,7 @@ knitr::kable(conf_mat,
 
 ### Métriques de performance
 
-De nombreuses métriques existent afin de quantifier les performances d'un classifieur sur base de la matrice de confusion. Partons d'un exemple fictif pour illustrer les calculs :
+De nombreuses métriques existent pour quantifier les performances d'un classifieur sur base de la matrice de confusion (dont certaines nécessitent la simplification en matrice 2x2, mais pas toutes). Partons d'un exemple fictif pour illustrer les calculs :
 
 ```{r}
 # Classification manuelle en 3 classes A, B, C (la "vérité")
@@ -259,7 +259,7 @@ recallB
 
 ##### À vous de jouer ! {.unnumbered}
 
-`r h5p(168, height = 270, toc = " Métriques : rappel")`
+`r h5p(168, height = 270, toc = "Métriques : rappel")`
 
 -   **Spécificité** (*specificity*)
 
@@ -312,7 +312,7 @@ precA <- matconf[1, 1] / sum(matconf[, 1]) * 100
 precA
 ```
 
-Si la classification ne peut se faire sans erreurs (cas le plus fréquent), nous pouvons améliorer la précision, mais au détriment du rappel, ou *vice-versa*. Selon le contexte, nous avons plutôt intérêt à favoriser l'un ou l'autre. Par exemple, pour le dépistage d'e la COVID-19'une maladie contagieuse, il vaut mieux un test avec un rappel le plus élevé possible (pour ne pas déclarer des patients malades comme faussement sains), quitte à sacrifier un peu la précision (avoir une fraction un peu plus grande de faux positifs dans la partie de la population considérée comme atteinte d'après le test... et qui ferait une quarantaine inutilement).
+Si la classification ne peut se faire sans erreurs (cas le plus fréquent), nous pouvons améliorer la précision, mais au détriment du rappel, ou *vice-versa*. Selon le contexte, nous avons plutôt intérêt à favoriser l'un ou l'autre. Par exemple, pour le dépistage de la COVID-19, une maladie contagieuse, il vaut mieux un test avec un rappel le plus élevé possible (pour ne pas déclarer des patients malades comme faussement sains), quitte à sacrifier un peu la précision (avoir une fraction un peu plus grande de faux positifs dans la partie de la population considérée comme atteinte d'après le test... et qui ferait une quarantaine inutilement).
 
 Dans d'autres situations, il vaut mieux au contraire, favoriser la précision. Si nous voulons inclure des sujets atteints d'une maladie rare dans une étude, nous n'aurons pas intérêt à échantillonner la population au hasard. En effet, notre échantillon contiendra trop d'individus sains par rapport aux rares malades. Nous pourrions alors utiliser la classification supervisée pour déterminer qui est malade ou sain, et ensuite effectuer un échantillonnage stratifié dans les deux classes (50% de chaque classe dans l'échantillon final pour notre étude). Évidemment, dans ce cas, si la précision est très faible, nous aurons énormément de faux positifs dans la fraction détectée comme malade. Cela réduirait alors la représentativité des individus malades dans l'échantillon, par rapport à un classifieur qui montre une précision plus grande pour la classe des malades.
 
@@ -320,7 +320,7 @@ Dans d'autres situations, il vaut mieux au contraire, favoriser la précision. S
 
 `r h5p(169, height = 270, toc = "Choix de métriques")`
 
-Ces deux exemples sont extrêmes. Dans la majorité des cas, nous recherchons plutôt un bon équilibre entre rappel et précision, et ce, pour toutes les classes. Les mesures suivantes de score *F* ou précision balancée tentent de synthétiser rappel et précision, ou rappel et spécificité en un seul nombre pour une classe donnée, afin de représenter au mieux cette recherche d'un compromis entre les deux.
+Ces deux exemples sont extrêmes. Dans la majorité des cas, nous recherchons plutôt un bon équilibre entre rappel et précision, et ce, pour toutes les classes. Les mesures de **score _F_** tentent de synthétiser rappel et précision, ou rappel et spécificité en un seul nombre pour une classe donnée, afin de représenter au mieux cette recherche d'un compromis entre les deux.
 
 -   **Score F** (*F-measure*)
 
@@ -356,7 +356,7 @@ Avec la série de métriques présentées ici, vous avez suffisamment d'outils �
 
 Il existe une technique qui permet de résumer globalement les métriques qui se calculent par classe seulement en une seule valeur pour l'ensemble du classifieur dans le cas multiclasse. Il s'agit de calculer la métrique pour chaque classe, et ensuite d'effectuer la **moyenne de toutes les valeurs obtenues**. En fait, il y a deux moyens d'y arriver :
 
--   Soit on fait le calcul "un contre tous" en rassemblant tout ce qui n'est pas de la classe cible en une classe "autre" comme nous avons fait jusqu'ici dans le calcul "par classe". Cela nous amène à calculer *p* métriques pour les *p* classes, et ensuite d'en faire la moyenne. C'est ce qu'on appelle la métrique **macro-moyenne** (*macro-average* en anglais). À noter que la moyenne peut être simple ou pondérée en fonction de la représentation des différentes classes dans le set de test. Si la moyenne est pondérée, la métrique donnera plus d'importance aux classes abondantes. Ce n'est pas toujours désiré, car alors, le classifieur sera d'autant moins performant que les classes sont rares... au bénéfice de performances globales. Or ces performances globales sont *déjà* quantifiées par le taux global de reconnaissance ou l'erreur global qui en est le complément.
+-   Soit on fait le calcul "un contre tous" en rassemblant tout ce qui n'est pas de la classe cible en une classe "autre" comme nous avons fait jusqu'ici dans le calcul "par classe". Cela nous amène à calculer *p* métriques pour les *p* classes, et ensuite d'en faire la moyenne. C'est ce qu'on appelle la métrique **macro-moyenne** (*macro-average* en anglais). À noter que la moyenne peut être simple ou pondérée en fonction de la représentation des différentes classes dans le set de test. Si la moyenne est pondérée, la métrique donnera plus d'importance aux classes abondantes. Ce n'est pas toujours désiré, car alors, le classifieur sera d'autant moins performant que les classes sont rares... au bénéfice de performances globales. Or ces performances globales sont *déjà* quantifiées par le taux global de reconnaissance ou l'erreur globale qui en est le complément.
 
 -   Soit le calcul se fait deux à deux par paire de classes jusqu'à avoir calculé la métrique pour toutes les paires possibles. Cette approche est la même que pour le calcul d'une matrice de distances entre individus, ou pour le calcul d'une matrice de corrélations, par exemple. Cependant, le calcul est optimisé et réalisé différemment, mais le principe est celui-là. Dans ce cas, nous appellerons cette métrique **micro-moyenne** (*micro-average* en anglais). Ce calcul tient compte des proportions relatives des individus à travers toute la matrice de confusion et se rapproche de la version pondérée de la variante macro-moyenne pour cette raison. En présence de classes très déséquilibrées, nous avons donc le même biais que pour la version pondérée (et pour le taux global de reconnaissance ou l'erreur globale) qui accorde plus d'importance aux classes les plus abondantes. D'autre part, la méthode micro-moyenne considère tour à tour un individu mal classé comme faux positif et comme faux négatif selon la classe cible. Il en résulte que le nombre moyen de faux positifs et de faux négatifs est *toujours* le même. Donc, les variantes micro-moyennes de rappel, précision et score F sont toutes trois égales et les deux points de vue de l'analyse (récupérer un maximum d'items avec le rappel, ou obtenir un classement exempt d'items mal classés avec la précision) s'effacent complètement. Par contre, la métrique quantifiera mieux que la macro-moyenne non pondérée les performances globales toutes classes confondues et se rapprochera à cet égard du taux global de reconnaissance.
 
@@ -374,7 +374,7 @@ Plus loin dans le résumé d'une matrice de confusion effectuée avec le package
 
 ##### À vous de jouer ! {.unnumbered}
 
-Ce projet sera traité par groupe de quatre étudiants. **Les groupes doivent correspondre aux rangées de la salle de cours.**
+Ce projet sera traité par groupe de quatre étudiants.
 
 ```{r assign_C01Ga_metrics, echo=FALSE, results='asis'}
 if (exists("assignment2"))
@@ -383,7 +383,7 @@ if (exists("assignment2"))
     course.ids = c(
       'S-BIOG-025'         = !"C01Ga_{YY}M_metrics"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/razJjNs0"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/2jy2rMUP"),
     course.starts = c(
       'S-BIOG-025'         = !"{W[5]+1} 08:00:00"),
     course.ends = c(
@@ -407,7 +407,7 @@ Pour rappel, l'ACP est une technique qui effectue la **diagonalisation d'une mat
 
 En ADL, on réutilise le même principe, mais nous substituons la matrice inter-groupe à la matrice variance-covariance pour effectuer cette diagonalisation. Le résultat est une *autre* rotation des axes qui va maximiser, cette fois-ci, les distances inter-groupes... et donc, séparer au mieux linéairement les différentes classes (entendez par là, par une division à l'aide d'hyperplans qui sont les équivalents à *N* dimension de droites de séparation dans un plan à deux dimensions, voir schéma ci-dessous). Les hyperplans de séparations sont déterminés par rapport aux barycentres des différentes classes. En d'autres termes, ils sont placés à égale distance des centres de gravité des différents nuages de points dans la représentation en composantes principales de l'ADL.
 
-![Schéma de principe de rotation du système d'axes de l'ADL afin de maximiser la variance inter-groupe, et donc, de séparer au mieux ces groupes dans le nouveau système d'axes. La séparation du plan à l'aide d'une droite à égale distance des barycentres des groupes définit des sous-régions qui correspondent à chacune des classes.](images/01-classification1/adl.png)
+![Schéma de principe de rotation du système d'axes de l'ADL pour maximiser la variance inter-groupe, et donc, de séparer au mieux ces groupes dans le nouveau système d'axes. La séparation du plan à l'aide d'une droite à égale distance des barycentres des groupes définit des sous-régions qui correspondent à chacune des classes.](images/01-classification1/adl.png)
 
 À partir de là, l'espace est divisé en plusieurs régions dont les frontières sont linéaires. Chaque région correspond à une classe. Il suffit alors de projeter de nouveaux individus dans cet espace (recalcul des coordonnées selon la rotation du système d'axes et représentation de ces coordonnées dans l'espace des individus de l'ADL). Nous regardons dans quelle sous-région nos points ont été se placer pour en prédire la classe. Pour une autre explication, [voyez ici](https://od-datamining.com/knwbase/lanalyse-discriminante-expliquee-a-ma-fille/).
 
@@ -421,7 +421,7 @@ Partons d'un exemple pratique sur trois populations de manchots adultes proches 
 SciViews::R("ml", lang = "fr")
 ```
 
-R charge une série de packages qui constituent le dialecte SciViews (cela se fait de manière invisible, sauf si vous indiquez aussi `silent = FALSE`), et il charge aussi des packages R spécifiques du machine learning, comme {mlearning} ou {recipes}. Dorénavant, leurs fonctions sont directement disponibles. **Rappelez-vous bien d'utiliser cette instruction en début de script R ou de document R Markdown à chaque fois que vous voulez utiliser le dialecte SciViews::R**. Si vous avez indiqué `silent = FALSE`, une liste de conflits indique des fonctions homonymes dans différents packages, celles chargées plus haut masquant celles chargées plus bas. Ne vous en préoccupez pas parce que `SciViews::R` s'est arrangé pour que les fonctions que vous utiliserez ici soient celles qui sont directement disponibles. Nous pouvons maintenant lire le jeu de données `penguins` depuis le package {palmerpenguins} à l'aide de `read()` comme nous en avons l'habitude.
+R charge une série de packages qui constituent le dialecte SciViews (cela se fait de manière invisible, sauf si vous indiquez aussi `silent = FALSE`), et il charge aussi des packages R spécifiques du machine learning, comme {mlearning} ou {recipes}. Dorénavant, leurs fonctions sont directement disponibles. **Rappelez-vous bien d'utiliser cette instruction en début de script R ou de document R Markdown ou Quarto à chaque fois que vous voulez utiliser le dialecte SciViews::R**. Si vous avez indiqué `silent = FALSE`, une liste de conflits indique des fonctions homonymes dans différents packages, celles chargées plus haut masquant celles chargées plus bas. Ne vous en préoccupez pas parce que `SciViews::R` s'est arrangé pour que les fonctions que vous utiliserez ici soient celles qui sont directement disponibles. Nous pouvons maintenant lire le jeu de données `penguins` depuis le package {palmerpenguins} à l'aide de `read()` comme nous en avons l'habitude.
 
 ```{r}
 penguins <- read("penguins", package = "palmerpenguins")
@@ -439,7 +439,7 @@ Ce jeu de données contient `r ncol(penguins)` variables et `r nrow(penguins)` i
 -   **Gentoo** (124 individus)
 -   **Chinstrap** (68 individus)
 
-Bien que nous n'ayons pas un *plan balancé* (même nombre d'items pour chaque niveau de notre variable réponse), les différences restent encore acceptables, soit un peu plus du simple au double entre Chinstrap et Adelie. Nous pourrions sous-échantillonner les espèces les plus abondantes, mais nous diminuons alors la taille de notre jeu de données. Des techniques existent pour balancer le nombre d'items, dont la plus en vogue : [SMOTE ("Synthetic Minority Over-sampling")](https://rikunert.com/SMOTE_explained). Elle peut s'avérer utile dans des cas plus problématiques, mais il a été démontré que son utilisation dans des situations trop extrêmes mène à des classifieurs moins performants. Il n'y a pas de secrets, *"garbage in, garbage out"*. disent justement les Anglais. Vous devez vous assurer au départ d'avoir suffisamment d'items de chaque classe dans votre jeu de données et balancer les effectifs entre les classes du mieux que vous pouvez sans recourir à ce genre de technique. Nous poursuivrons ici sans modifier artificiellement le nombre d'items dans notre jeu de données.
+Bien que nous n'ayons pas un *plan balancé* (même nombre d'items pour chaque niveau de notre variable réponse), les différences restent encore acceptables, soit un peu plus du simple au double entre Chinstrap et Adelie. Nous pourrions sous-échantillonner les espèces les plus abondantes, mais nous diminuons alors la taille de notre jeu de données. Des techniques existent pour balancer le nombre d'items, dont la plus en vogue : [SMOTE ("Synthetic Minority Over-sampling")](https://rikunert.com/SMOTE_explained). Elle peut s'avérer utile dans des cas plus problématiques, mais il a été démontré que son utilisation dans des situations trop extrêmes mène à des classifieurs moins performants. Il n'y a pas de secrets, *"garbage in, garbage out"* disent justement les Anglais. Vous devez vous assurer au départ d'avoir suffisamment d'items de chaque classe dans votre jeu de données et balancer les effectifs entre les classes du mieux que vous pouvez sans recourir à ce genre de technique. Nous poursuivrons ici sans modifier artificiellement le nombre d'items dans notre jeu de données.
 
 ```{block2, type = 'info'}
 En quoi un nombre différent d'items dans chaque classe peut-il poser problème en classification supervisée ? En fait comme le calcul du classifieur se base souvent sur une métrique globale, comme la minimisation de l'erreur totale, en cas de différences extrêmes dans les effectifs par classe, nous pourrions arriver à des situations paradoxales. Imaginez par exemple une maladie très rare. Si nous partons d'un échantillon aléatoire de la population, même important, nous auront énormément de patients sains, mais forcément très peu de cas positifs. Par exemple, 1,5% de notre set d'apprentissage est constitué de patients malades. Dans ce cas, un classifieur trivial qui classerait tout le monde comme sain ferait globalement 98,5% de prédictions correctes et notre métrique d'erreur totale serait de 1.5%. C'est difficile à battre, et en même temps pas très utile. Donc, deux points à retenir à partir de la réflexion sur ce cas fictif :
@@ -462,7 +462,7 @@ penguins %>.%
 La fonction "speedy" `sdrop_na()` (ou son équivalent dans la famille "tidy", `drop_na()`) est bien pratique pour obtenir un tableau de données propre sans aucunes valeurs manquantes. Cependant, elle est assez impitoyable si les colonnes à considérer ne sont pas précisées : toute ligne du tableau qui contient au moins une valeur manquante est éliminée. Toujours sélectionner les valeurs que l'on veut retenir dans le modèle *avant* de l'appliquer, ou alors, préciser le nom des colonnes à utiliser. Sinon, on retirera aussi des lignes pour lesquelles les variables qui ne nous intéressent pas ont aussi des valeurs manquantes (ici, le sexe, par exemple).
 ```
 
-Le graphique ci-dessous trace un nuage de points pour voir si les trois espèces se différencient selon seulement deux variables. On observe une répartition assez bonne entre nos trois espèces pour les deux variables représentées. Ce graphique nous laisse penser qu'e'un classifieur basé sur un algorithme de type ADL a de grandes chances d'être efficace pour séparer ces trois espèces, car le jeu de donnée montre une tendance claire. N'oublions pas que nous avons au total quatre attributs à disposition et l'ADL utilisera toute cette information pour séparer les espèces encore mieux.
+Le graphique ci-dessous trace un nuage de points pour voir si les trois espèces se différencient selon seulement deux variables. On observe une répartition assez bonne entre nos trois espèces pour les deux variables représentées. Ce graphique nous laisse penser qu'un classifieur basé sur un algorithme de type ADL a de grandes chances d'être efficace pour séparer ces trois espèces. N'oublions pas que nous avons au total quatre attributs à disposition et l'ADL utilisera toute cette information pour séparer les espèces encore mieux.
 
 ```{r}
 chart(penguins, bill_length ~ flipper_length %color=% species) +
@@ -508,10 +508,10 @@ table(penguins_test$species)
 
 #### Apprentissage avec ADL
 
-Nous utilisons le package {mlearning} pour réaliser notre analyse ici. Ce package est chargé automatiquement avec `SciViews::R("ml")`. La fonction `mlLda()` expose une interface que nous avons déjà employée à de nombreuses reprises. Il faut fournir le set d'apprentissage (`data =`) et la formule. Dans notre cas, nous souhaitons prédire l'espèce à l'aide de plusieurs attributs.
+Nous utilisons le package {mlearning} pour réaliser notre analyse ici. Ce package est chargé automatiquement avec `SciViews::R("ml")`. La fonction `ml_lda()` expose une interface que nous avons déjà employée à de nombreuses reprises. Il faut fournir le set d'apprentissage (`data =`) et la formule. Dans notre cas, nous souhaitons prédire l'espèce à l'aide de plusieurs attributs.
 
 ```{r}
-penguins_lda <- mlLda(data = penguins_train,
+penguins_lda <- ml_lda(data = penguins_train,
   species ~ bill_length + bill_depth + flipper_length + body_mass)
 ```
 
@@ -519,7 +519,7 @@ Cependant dans la situation particulière où **toutes** les variables du tablea
 
 ```{r}
 # Utilisation de la forme condensée de notre formule
-penguins_lda <- mlLda(data = penguins_train, species ~ .)
+penguins_lda <- ml_lda(data = penguins_train, species ~ .)
 penguins_lda
 ```
 
@@ -529,7 +529,7 @@ Nous pouvons visualiser nos données selon les deux premiers axes discriminants 
 plot(penguins_lda, col = as.numeric(response(penguins_lda)))
 ```
 
-Nous voyons bien que la séparation est très bonne. Gentoo est très clairement séparé des deux autres, tandis que la frontière entre Chinstrap et Adelie est un peu moins nette, mais toutefois clairement visible.
+Nous voyons que la séparation est très bonne. Gentoo est très clairement séparé des deux autres, tandis que la frontière entre Chinstrap et Adelie est un peu moins nette, mais toutefois clairement visible.
 
 <details>
 
@@ -540,9 +540,9 @@ Bien que {mlearning} n'offre aucune fonction pour visualiser le découpage que r
 Pour visualiser ce qui se passe dans un plan à deux dimensions, nous allons refaire une prédiction à l'aide de deux variables seulement :
 
 ```{r}
-penguins_train2 %<-%  select(penguins_train, flipper_length, bill_length, species)
+penguins_train2 <-  sselect(penguins_train, flipper_length, bill_length, species)
 
-penguins_lda2 <- mlLda(data = penguins_train2, species ~ .)
+penguins_lda2 <- ml_lda(data = penguins_train2, species ~ .)
 summary(penguins_lda2)
 ```
 
@@ -586,7 +586,7 @@ penguins_pred <- predict(penguins_lda, penguins_test)
 penguins_pred
 ```
 
-Cet objet contient donc les `r nrow(penguins_test)` prédictions réalisées par notre classifieur. Nous calculons un tableau de contingence à double entrée en croisant ces données avec les espèces déterminées par les spécialistes qui se trouvent dans la variable `species` de notre set de test (que le classifieur n'a, bien entendu pas utilisée pour faire ses prédictions). Dans le langage de la classification supervisée, ce tableau de contingence à double entrée s'appelle une **matrice de confusion**.
+Cet objet contient donc les `r nrow(penguins_test)` prédictions réalisées par notre classifieur. Nous calculons un tableau de contingence à double entrée en croisant ces données avec les espèces déterminées par les spécialistes qui se trouvent dans la variable `species` de notre set de test (que le classifieur n'a, bien entendu pas utilisée pour faire ses prédictions). Dans le langage de la classification supervisée, ce tableau de contingence à double entrée s'appelle une **matrice de confusion** comme nous l'avons vue au début de ce chapitre.
 
 ```{r}
 # Argument 1: prédictions, argument 2: valeurs connues pour `species`
@@ -623,7 +623,7 @@ if (exists("assignment"))
     course.ids = c(
       'S-BIOG-025'         = !"C01Ia_{YY}M_debug"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/qq523ReF"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/j8zZrT-k"),
     course.starts = c(
       'S-BIOG-025'         = !"{W[4]+1} 08:00:00"),
     course.ends = c(
@@ -649,13 +649,13 @@ if (exists("assignment"))
     course.ids = c(
       'S-BIOG-025'         = !"C01Ib_{YY}M_lda"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/fZhffY-k"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/RRDC_CA1"),
     course.starts = c(
-      'S-BIOG-025'         = !"{W[5]+4} 08:00:00"),
+      'S-BIOG-025'         = !"{W[5]+1} 08:00:00"),
     course.ends = c(
       'S-BIOG-025'         = !"{W[6]+1} 23:59:59"),
     term = "Q1", level = 3,
-    toc = "Projet d'analyse discriminante linéaire")
+    toc = "Analyse discriminante linéaire")
 ```
 
 ## Récapitulatif des exercices
