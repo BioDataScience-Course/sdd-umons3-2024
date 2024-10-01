@@ -163,7 +163,7 @@ spectrum(co2_resid2, spans = c(5, 3))
 
 Ici, tout se passe comme si nous avions éliminé totalement tout signal de fréquence entière (1, 2, 3, ...) et qu'ensuite d'autres signaux apparaissent. Ce sont probablement des cycles fantômes issus du traitement... tout comme le cycle à fréquence deux observé plus haut reste discutable. **Gardez toujours votre esprit critique aiguisé en pareille situation !** Par exemple, quelle est l'étendue des signaux correspondants à nos trois composantes ? Pour la tendance, nous allons de 320 à 370 ppm, soit environ 50 ppm. Pour la composante saisonnière, l'amplitude du signal est de presque 3 ppm (le signal oscille entre 3 ppm et -3 ppm), soit une étendue de 6 ppm. Enfin, pour les résidus, l'échelle de l'axe s'étale de -0.6 à 0.4, soit 1 ppm, donc, une amplitude maximum de 0.5 ppm pour un éventuel cycle. Que peut-on encore extraire d'intéressant comme signal avec une si petite amplitude relative de presque un ordre de grandeur inférieur à l'amplitude du signal saisonnier qui, lui, est bien concret dans notre série ? Voilà le type de raisonnement logique que vous devez utiliser, au-delà de ce que les calculs vous montrent.
 
-```{block2, type='note'}
+```{block, type='note'}
 Avec `tsd()` vous avez plusieurs méthodes de décomposition disponibles, même si nous n'en avons abordé jusqu'ici que deux. Avec `method=` :
 
 - `"average"` pour les moyennes mobiles,
@@ -649,7 +649,7 @@ if (exists("assignment2"))
 
 La régularisation d'une série spatio-temporelle permet de transformer une série échantillonnée avec un pas de temps irrégulier ou présentant des trous en une série régulière. Malheureusement, en biologie, on a rarement affaire à des séries parfaitement régulières, soit parce qu'il y a des observations manquantes, soit parce qu'on ne contrôle pas l'intervalle de temps. Dans ce cas, la régularisation est une opération préliminaire indispensable à beaucoup d'analyses de séries spatio-temporelles, que ce soit avec les outils {pastecs} ou avec d'autres méthodes. Les objets **ts** doivent être *d'office* des séries spatio-temporelles régulières dans R. Cette étape est donc requise pour adapter des **data frame**s avant de pouvoir les transformer en séries temporelles ! Plusieurs méthodes de régularisation sont disponibles dans {pastecs} : régularisation par valeur constante (`regconst()`), linéaire (`reglin()`), par courbes splines (`regspline()`) et par la méthode des aires (`regarea()`). Afin de simplifier le travail de régularisation, et de faciliter ensuite la création des séries temporelles, toutes ces fonctions ont été regroupées sous une fonction commune `regul()`, dans la même philosophie que `tsd()` regroupe les différentes techniques de décomposition, par ailleurs implémentées par les fonctions `decXXX()`.
 
-```{block2, type = 'warning'}
+```{block, type = 'warning'}
 Toutes ces méthodes sont à utiliser **avec précaution**. Il est très facile d’obtenir n’importe quoi si l’on choisit des mauvais paramètres ! Il n’y a pas de règle absolue dans leurs choix, étant donné qu’ils sont liés à la nature-même des données à régulariser. Par exemple, il faut être extrêmement attentif à ne pas régulariser à tort des données physico-chimiques (par exemple à l’aide de la méthode des aires avec une très grande fenêtre).
 ```
 
@@ -690,7 +690,7 @@ Nous avons donc entre 7 et 67 jours entre deux observations avec un écart moyen
 
 Nous allons donc régulariser le jeu de données avec cette valeur en convertissant le temps en unité d'année. Afin d'éviter les difficultés du calendrier (année bissextile ou non, mois de 31, 30, 29 ou 28 jours), nous allons "lisser" le temps en utilisant l'argument `units = "daystoyears"`. En partant d'une mesure du temps écoulé depuis une date de départ en jours (dans `Day`), nous considérerons donc 265,25 jours par an et 1/12 d'année exactement pour chaque mois. Le début et la fin des années et des mois ne correspondront plus *exactement* aux débuts et fins de dates calendriers (à un jour ou deux près maximum), mais dans le cadre d'effets annuels et interannuels, cela a peu d'importance : les êtres vivants se soucient relativement peu, en général, de notre calendrier grégorien ! Par contre, ce type de manipulation ne tiendrait plus la route, par exemple, pour des données boursières ou économiques. En effet, dans ce cas, les jours de weekend et les jours fériés sont susceptibles de différer significativement du point de vue des valeurs mesurées (valeurs boursières, activité économique, déplacements liés au travail ou aux vacances, etc.).
 
-```{block2, type = 'note'}
+```{block, type = 'note'}
 À noter que, d'une manière générale, l'analyse de cycles bien précis tels que l'effet saisonnier ou les cycles circadiens nécessitent dans {pastecs} d'exprimer le temps dans une unité qui correspond exactement au cycle étudié. Ainsi, les fonctions de décomposition des séries en composantes saisonnières (`decloess()` par exemple) imposent d'exprimer le temps en unité `"years"`. De même, il est fortement conseillé d'adopté l'unité `"days"` pour l'étude de cycles circadiens.
 ```
 

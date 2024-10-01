@@ -34,7 +34,7 @@ my_function(arg1, arg2)
 
 La fonction porte un nom explicite suivi de parenthèses. À l'intérieur des parenthèses, on retrouve les **arguments** de la fonction.
 
-```{block2, type="info"}
+```{block, type="info"}
 Plusieurs fonction portant sur une même problématique se regroupe dans un package comme vous avez également l'habitude d'en utiliser comme {data.io}, {chart}, {knitr}. Néanmoins, ces notions ne seront pas détaillé au sein de ce module. Le package est très utile lorsque vous devez employer vos fonctions dans plusieurs projets différents. Il sera détaillé dans le module 12.
 ```
 
@@ -42,7 +42,7 @@ Plusieurs fonction portant sur une même problématique se regroupe dans un pack
 
 S'il y a bien une question qui va vous prendre la tête et qui requiert généralement un certain temps de réflexion c'est le nom de votre fonction et de ses arguments. Un nom mal choisi et/ou farfelu voue votre fonction à l'oubli. Il faut essayer d'avoir un nom court et évoquant le rôle de la fonction. Essayez de respecter la convention suivante qui veut que le nom d'une fonction soit un verbe et que ses arguments soient des noms. De plus, il est de plus en plus courant de respecter le "snake_case" (tout est en minuscule séparé par des sous-tirets)
 
-```{block2, type = "warning"}
+```{block, type = "warning"}
 Au final, vous verrez que R n'est pas homogène. R est un language qui évolue au cours du temps et ce depuis 1993, ce qui explique ce manque d'homogénéité. Cependant, restez cohérent, fixez vous vos propres conventions et respectez-les. 
 
 Imaginons que vous écrivez plusieurs fonctions : 

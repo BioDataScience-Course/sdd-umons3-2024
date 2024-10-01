@@ -410,7 +410,7 @@ Ici, nous sommes légèrement en dessous des 25%. L'arbre est différent. La per
 
 La forêt aléatoire, ou *random forest* en anglais (RF) est un algorithme introduit par Breiman (2001) qui créé un ensemble d'arbres décisionnels individuels, dont la variable discriminante à chaque nœud est choisie dans un sous-ensemble aléatoire de toutes les *p* variables utilisées (afin d'introduire une variation aléatoire dans chaque arbre de partitionnement qui est donc toujours différent des autres). Lorsque l'ensemble des arbres est créé, un vote à la majorité est appliqué en utilisant la réponse donnée par chaque arbre pour déterminer à quelle classe appartient l'individu étudié. **C'est actuellement un des algorithmes les plus performants de classification supervisée.** Par contre, étant donné qu'il faut créer plusieurs centaines d'arbres, le temps de calcul est généralement plus élevé qu'avec des méthodes simples comme ADL, k plus proches voisins, ou l'utilisation d'un arbre unique.
 
-```{block2, type='note'}
+```{block, type='note'}
 La combinaison de plusieurs classifieurs donne quasi-systématiquement des meilleurs résultats qu'un classifieur seul. On parle alors d'**ensemble** de classifieurs. La forêt aléatoire en est un excellent exemple. Plusieurs autres techniques existent pour combiner des classifieurs et améliorer les résultats, mais leur développement sort du cadre de ce cours :
 
 - **stacking :** Les résultats d'un ou plusieurs classifieurs sont utilisés comme variables d'entrée pour un autre classifieur. En d'autre terme, les classifieurs sont reliés en série les uns derrière les autres.
