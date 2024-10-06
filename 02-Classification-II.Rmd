@@ -36,9 +36,9 @@ Rappelez-vous qu'une règle à laquelle il ne faut *jamais* déroger, c'est de n
 
 ![Les sets d'apprentissage et de test ne peuvent pas utiliser *toutes* les données : il faut les partitionner.](images/02-classification2/split-set.png)
 
-Souvent, la grosse difficulté est d'obtenir suffisamment d'objets de chaque classe identifiés manuellement pour permettre à la fois l'apprentissage et le test. Un test sur les **mêmes** objets que ceux utilisés lors de l'apprentissage mène à une surestimation systématique des performances du classifieur. Nous sommes donc contraints d'utiliser des objets différents dans les deux cas. Naturellement, plus, nous avons d'objets dans le set d'apprentissage **et** dans le set de test, et meilleur sera notre classifieur et notre évaluation de son efficacité.
+Souvent, la grosse difficulté est d'obtenir suffisamment d'items de chaque classe identifiés manuellement pour permettre à la fois l'apprentissage et le test. Un test sur les **mêmes** objets que ceux utilisés lors de l'apprentissage mène à une surestimation systématique des performances du classifieur. Nous sommes donc contraints d'utiliser des cas différents dans les deux cas. Naturellement, plus, nous avons d'items dans le set d'apprentissage **et** dans le set de test, et meilleur sera notre classifieur et notre évaluation de son efficacité.
 
-La **validation croisée** permet de résoudre ce dilemme en utilisant en fin de compte *tous* les objets, *à la fois* dans le set d'apprentissage et dans le set de test, mais *jamais simultanément*. L'astuce consiste à diviser aléatoirement l'échantillon en *k* sous-ensembles à peu près égaux en effectifs. Ensuite, l'apprentissage suivi du test est effectué *n fois indépendamment*. À chaque fois, on sélectionne tous les sous-ensembles sauf un pour l'apprentissage, et le sous-ensemble laissé de côté est utilisé pour le test. L'opération est répétée de façon à ce que chaque sous-ensemble serve de set de test tour à tour. Finalement, on rassemble les résultats obtenus sur les *k* sets de tests, donc, sur tous les objets de notre échantillon et on calcule la matrice de confusion complète en regroupant donc les résultats des *k* étapes indépendantes. Enfin, on calcule les métriques souhaitées sur cette matrice de confusion afin d'obtenir une évaluation approchée et non biaisée des performances du classifieur complet (entraîné sur l'ensemble des données à disposition). L'animation suivante visualise le processus pour que cela soit plus clair dans votre esprit.
+La **validation croisée** permet de résoudre ce dilemme en utilisant en fin de compte *tous* les cas, *à la fois* dans le set d'apprentissage et dans le set de test, mais *jamais simultanément*. L'astuce consiste à diviser aléatoirement l'échantillon en *k* sous-ensembles à peu près égaux en effectifs. Ensuite, l'apprentissage suivi du test est effectué *n fois indépendamment*. À chaque fois, on sélectionne tous les sous-ensembles sauf un pour l'apprentissage, et le sous-ensemble laissé de côté est utilisé pour le test. L'opération est répétée de façon à ce que chaque sous-ensemble serve de set de test tour à tour. Finalement, on rassemble les résultats obtenus sur les *k* sets de tests, donc, sur tous les cas de notre échantillon et on calcule la matrice de confusion complète en regroupant donc les résultats des *k* étapes indépendantes. Enfin, on calcule les métriques souhaitées sur cette matrice de confusion afin d'obtenir une évaluation approchée et non biaisée des performances du classifieur complet (entraîné sur l'ensemble des données à disposition). L'animation suivante visualise le processus pour que cela soit plus clair dans votre esprit.
 
 `r img("02-classification2/cv.gif", caption = "Principe de fonctionnement de la validation croisée avec k = 7.")`
 
@@ -46,13 +46,13 @@ La **validation croisée** permet de résoudre ce dilemme en utilisant en fin de
 
 `r h5p(183, height = 270, toc = "Principe de la validation croisée.")`
 
-Au final, nous aurons utilisé tous les individus à la fois en apprentissage et en test, mais jamais simultanément. Le rassemblement des prédictions obtenues à chaque étape nous permet d'obtenir une grosse matrice de confusion qui contient le même nombre d'individus que l'ensemble de notre jeu de données initial. Naturellement, nous n'avons pas le même classifieur à chaque étape, et celui-ci n'est pas aussi bien construit que s'il utilisait véritablement *toutes* les observations. Mais plus le découpage est fin et plus nous nous en approchons. À la limite, pour *n* observations, nous pourrions réaliser *k* = *n* sous-ensembles, c'est-à-dire que chaque sous-ensemble contient un et un seul individu. Nous avons alors à chaque fois le classifieur le plus proche possible de celui que l'on obtiendrait avec véritablement toutes les observations puisqu'à chaque étape nous ne perdons qu'un seul individu en phase d'apprentissage. La contrepartie est un temps de calcul potentiellement très, très long puisqu'il y a énormément d'étapes. **Cette technique porte le nom de validation par exclusion d'une donnée ou *leave-one-out cross-validation* en anglais, LOOCV en abrégé**. À l'autre extrême, nous pourrions utiliser *k* = 2. Mais dans ce cas, nous n'utilisons que la moitié des observations en phase d'apprentissage à chaque étape. C'est le plus rapide, mais le moins exact.
+Au final, nous aurons utilisé tous les individus à la fois en apprentissage et en test, mais jamais simultanément. Le rassemblement des prédictions obtenues à chaque étape (en sommant les différentes matrices de confusion) nous permet d'obtenir une grosse matrice de confusion qui contient le même nombre d'individus que l'ensemble de notre jeu de données initial. Naturellement, nous n'avons pas le même classifieur à chaque étape, et celui-ci n'est pas aussi bien construit que s'il utilisait véritablement *toutes* les observations. Mais plus le découpage est fin et plus nous nous en approchons. À la limite, pour *n* observations, nous pourrions réaliser *k* = *n* sous-ensembles, c'est-à-dire que chaque sous-ensemble contient un et un seul individu. Nous avons alors à chaque fois le classifieur le plus proche possible de celui que l'on obtiendrait avec véritablement toutes les observations puisqu'à chaque étape nous ne perdons qu'un seul individu en phase d'apprentissage. La contrepartie est un temps de calcul potentiellement très, très long puisqu'il y a énormément d'étapes. **Cette technique porte le nom de validation par exclusion d'une donnée ou *leave-one-out cross-validation* en anglais, LOOCV en abrégé**. À l'autre extrême, nous pourrions utiliser *k* = 2. Mais dans ce cas, nous n'utilisons que la moitié des observations en phase d'apprentissage à chaque étape. C'est le plus rapide, mais le moins exact.
 
 ##### À vous de jouer ! {.unnumbered}
 
 `r h5p(184, height = 270, toc = "Principe de la validation par exclusion d'une donnée.")`
 
-En pratique, un compromis entre exactitude et temps de calcul nous mène à choisir souvent la **validation croisée dix fois** (*ten-fold cross-validation* en anglais). Nous divisons aléatoirement en dix sous-ensembles d'à peu près le même nombre d'individus et nous répétons donc l'opération apprentissage -\> test seulement dix fois. Chacun des dix classifieurs a donc été élaboré avec 90% des données totales, ce qui représente souvent un compromis encore acceptable pour estimer les propriétés qu'aurait le classifieur réalisé avec 100% des données. Toutefois, si nous constatons que le temps de calcul est raisonnable, rien ne nous empêche d'augmenter le nombre de sous-ensembles, voire d'utiliser la version par exclusion d'une donnée, mais en pratique nous observons tout de même que cela n'est pas raisonnable avec de très gros jeux de données et avec les algorithmes les plus puissants, mais aussi les plus gourmands en temps de calcul comme la forêt aléatoire ou les réseaux de neurones que nous aborderons dans le prochain module.
+En pratique, un compromis entre exactitude et temps de calcul nous mène à choisir souvent la **validation croisée dix fois** (*ten-fold cross-validation* en anglais). Nous divisons aléatoirement en dix sous-ensembles d'à peu près le même nombre d'individus et nous répétons donc l'opération apprentissage -\> test seulement dix fois. Chacun des dix classifieurs a donc été élaboré avec 90% des données totales, ce qui représente souvent un compromis encore acceptable pour estimer les propriétés qu'aurait le classifieur réalisé avec 100% des données. Toutefois, si nous constatons que le temps de calcul est raisonnable, rien ne nous empêche d'augmenter le nombre de sous-ensembles, voire d'utiliser la version par exclusion d'une donnée, mais en pratique nous observons tout de même que cela n'est pas raisonnable avec de très gros jeux de données et avec les algorithmes les plus puissants, mais aussi les plus gourmands en temps de calcul comme la forêt aléatoire (ou les réseaux de neurones que nous aborderons dans le prochain module).
 
 ### Application sur les manchots
 
@@ -75,7 +75,7 @@ Une fois notre tableau complet, correctement nettoyé et préparé, nous faisons
 
 ```{r}
 # ADL avec toutes les données
-penguins_lda <- mlLda(data = penguins, species ~ bill_length +
+penguins_lda <- ml_lda(data = penguins, species ~ bill_length +
   bill_depth + flipper_length + body_mass)
 # Prédiction par validation croisée 10x
 set.seed(7567) # Pensez à varier le nombre à chaque fois ici !
@@ -112,7 +112,7 @@ plot(penguins_conf_loo)
 summary(penguins_conf_loo, type = c("Recall", "Precision", "Fscore"), sort.by = "Recall")
 ```
 
-Le résultat est le même. Donc, nous venons de montrer que, dans le cas de ce jeu de données et de l'ADL, une validation croisée dix fois permet d'estimer les performances du classifieur aussi bien que l'approche bien plus coûteuse en calculs (342 classifieurs sont calculés et testés) du "leave-one-out". Bien évidemment, ce ne sera pas toujours le cas.
+Le résultat est le même. Donc, nous venons de montrer que, dans le cas de ce jeu de données et de l'ADL, une validation croisée dix fois permet d'estimer les performances du classifieur aussi bien que l'approche bien plus coûteuse en calculs (333 classifieurs sont calculés et testés) du "leave-one-out". Bien évidemment, ce ne sera pas toujours le cas.
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -144,7 +144,7 @@ Nous avons déjà étudié l'analyse discriminante linéaire dans le précédent
 
 Afin d'explorer et comparer l'utilisation de différents algorithmes de classification supervisée, nous reprendrons notre jeu de données `pima` concernant une population d'Amérindiens qui sont connus pour compter un haut taux d'obèses et de diabétiques. Nous avions déjà utilisé ces données pour [illustrer l'ACP dans le cours de Science des Données biologiques II](https://wp.sciviews.org/sdd-umons2/?iframe=wp.sciviews.org/sdd-umons2-2024/analyse-en-composantes-principales.html). Pour rappel, le jeu de données se présente comme suit :
 
-```{r}
+```{r, warning=FALSE}
 SciViews::R("ml")
 pima <- read("PimaIndiansDiabetes2", package = "mlbench")
 tabularise$headtail(pima)
@@ -170,7 +170,7 @@ table(pima$diabetes)
 
 Nous avons plus de cas négatifs que de positifs et pourrions souhaiter balancer les deux classes. La différence n'est cependant pas à ce point dramatique et nous continuerons dans cet exemple avec les données telles quelles.
 
-Ce jeu de données contient 768 cas, mais deux variables (`triceps` et `insulin`) ont un très grand nombre de valeurs manquantes comme nous le voyons ci-dessous.
+Ce jeu de données contient 768 cas, mais deux variables (`triceps` et `insulin`) ont un très grand nombre de valeurs manquantes comme nous le voyons ci-dessous (notez au passage cette fonction `naniar::vis_miss()` qui permet de visualiser les données manquantes dans des jeux de données de taille moyenne à grande).
 
 ```{r}
 naniar::vis_miss(pima)
@@ -224,7 +224,7 @@ Dans ce second jeu de données, nous avons pu tout de même conserver `r nrow(pi
 
 ```{r}
 set.seed(364)
-pima1_lda <- mlLda(data = pima1, diabetes ~ .)
+pima1_lda <- ml_lda(data = pima1, diabetes ~ .)
 pima1_lda_conf <- confusion(cvpredict(pima1_lda, cv.k = 10), pima1$diabetes)
 plot(pima1_lda_conf)
 summary(pima1_lda_conf, type = c("Fscore", "Recall", "Precision"))
@@ -234,7 +234,7 @@ Et avec `pima2`, cela donne :
 
 ```{r}
 set.seed(2673)
-pima2_lda <- mlLda(data = pima2, diabetes ~ .)
+pima2_lda <- ml_lda(data = pima2, diabetes ~ .)
 pima2_lda_conf <- confusion(cvpredict(pima2_lda, cv.k = 10), pima2$diabetes)
 plot(pima2_lda_conf)
 summary(pima2_lda_conf, type = c("Fscore", "Recall", "Precision"))
@@ -258,11 +258,11 @@ Un seul paramètre doit donc être défini : *k*, représentant le nombre d'ind
 
 ### Pima avec k-NN
 
-La méthode des k plus proches voisins est implémentée dans {mlearning} dans la fonction `mlKnn()`. En pratique, il suffit de substituer cette fonction dans la logique du code {mlearning}. Un argument est `k=` qui indique le nombre de *k* voisins à prendre en compte.
+La méthode des k plus proches voisins est implémentée dans {mlearning} dans la fonction `ml_knn()`. En pratique, il suffit de substituer cette fonction dans la logique du code {mlearning}. Un argument est `k=` qui indique le nombre de *k* voisins à prendre en compte.
 
 ```{r}
 set.seed(3675)
-pima1_knn <- mlKnn(data = pima1, diabetes ~ ., k = 3)
+pima1_knn <- ml_knn(data = pima1, diabetes ~ ., k = 3)
 pima1_knn_conf <- confusion(cvpredict(pima1_knn, cv.k = 10), pima1$diabetes)
 plot(pima1_knn_conf)
 summary(pima1_knn_conf, type = c("Fscore", "Recall", "Precision"))
@@ -274,7 +274,7 @@ Pour `pima2`, nous obtenons :
 
 ```{r}
 set.seed(127)
-pima2_knn <- mlKnn(data = pima2, diabetes ~ ., k = 3)
+pima2_knn <- ml_knn(data = pima2, diabetes ~ ., k = 3)
 pima2_knn_conf <- confusion(cvpredict(pima2_knn, cv.k = 10), pima2$diabetes)
 plot(pima2_knn_conf)
 summary(pima2_knn_conf, type = c("Fscore", "Recall", "Precision"))
@@ -298,11 +298,11 @@ En plus du paramètre *k*, il faut donc également définir `size=`, le nombre d
 
 ### Pima avec LVQ
 
-Voyons ce que cela donne sur nos données `pima1` et `pima2`, en utilisant la fonction `mlLvq()` de {mlearning} qui utilise les arguments `size=` pour la taille du dictionnaire et `k.nn=` pour le nombre de proches voisins à considérer ensuite :
+Voyons ce que cela donne sur nos données `pima1` et `pima2`, en utilisant la fonction `ml_lvq()` de {mlearning} qui utilise les arguments `size=` pour la taille du dictionnaire et `k.nn=` pour le nombre de proches voisins à considérer ensuite :
 
 ```{r}
 set.seed(846)
-pima1_lvq <- mlLvq(data = pima1, diabetes ~ ., k.nn = 3, size = 30)
+pima1_lvq <- ml_lvq(data = pima1, diabetes ~ ., k.nn = 3, size = 30)
 pima1_lvq_conf <- confusion(cvpredict(pima1_lvq, cv.k = 10), pima1$diabetes)
 plot(pima1_lvq_conf)
 summary(pima1_lvq_conf, type = c("Fscore", "Recall", "Precision"))
@@ -314,7 +314,7 @@ Avec `pima2`, une taille de dictionnaire de 30 toujours et trois plus proches vo
 
 ```{r}
 set.seed(25)
-pima2_lvq <- mlLvq(data = pima2, diabetes ~ ., k.nn = 3, size = 30)
+pima2_lvq <- ml_lvq(data = pima2, diabetes ~ ., k.nn = 3, size = 30)
 pima2_lvq_conf <- confusion(cvpredict(pima2_lvq, cv.k = 10), pima2$diabetes)
 plot(pima2_lvq_conf)
 summary(pima2_lvq_conf, type = c("Fscore", "Recall", "Precision"))
@@ -329,7 +329,7 @@ if (exists("assignment"))
     course.ids = c(
       'S-BIOG-025'         = !"C02Ia_{YY}M_zoo"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/IWJx_my2"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/n_smIDv1"),
     course.starts = c(
       'S-BIOG-025'         = !"{W[7]+1} 08:00:00"),
     course.ends = c(
@@ -344,21 +344,21 @@ Le partitionnement récursif est un algorithme de classification supervisée qui
 
 ![Schéma du principe d'un arbre de classification en quatre classes A, B, C et D en utilisant les attributs x, y et z. À chaque nœud, un attribut et un seuil sont choisis afin d'établir une règle de décision (en rouge). Pour un individu dont il faut prédire la classe, nous parcourons l'arbre de branche en branche depuis tout en haut et bifurquons à gauche ou à droite selon la comparaison au seuil fixé à chaque nœud : vers la gauche si la variable est inférieure au seuil, vers la droite si elle en est supérieure ou égale. Les feuilles représentent chacune une classe (en bleu, duplications possibles). Arrivés à une feuille, nous obtenons donc la classe prédite pour cet individu.](images/02-classification2/rpart.png)
 
-Vous pouvez aussi visionner une [magnifique présentation animée de ce qu'est un arbre de partitionnement ou décisionnel](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/) (pensez bien à sélectionner le français en tout début de document et faites défiler jusqu'à la fin de l'histoire). Dans cette présentation, la notion de **suréchantillonnage** (*oversampling* en anglais) est abordée. C'est un problème qui se rencontre souvent en classification supervisée, tout comme en régression. Dans le cas de l'arbre de partitionnement, la solution consiste à élaguer les branches de moindre importance de l'arbre. [Cette page explique de manière très claire de quoi il s'agit](http://www.r2d3.us/visual-intro-to-machine-learning-part-2/).
+Vous pouvez aussi visionner une [magnifique présentation animée de ce qu'est un arbre de partitionnement ou décisionnel](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/) (pensez bien à sélectionner le français en tout début de document et faites défiler jusqu'à la fin de l'histoire, **lien vivement conseillé !**). Dans cette présentation, la notion de **suréchantillonnage** (*oversampling* en anglais) est abordée. C'est un problème qui se rencontre souvent en classification supervisée, tout comme en régression. Dans le cas de l'arbre de partitionnement, la solution consiste à élaguer les branches de moindre importance de l'arbre. [Cette page explique de manière très claire de quoi il s'agit](http://www.r2d3.us/visual-intro-to-machine-learning-part-2/).
 
 ### Pima avec rpart
 
-Afin de rendre ceci plus concret, calculons l'arbre de partitionnement récursif pour `pima1`. Le package {mlearning} offre la fonction `mlRpart()` pour ce faire.
+Pour rendre ceci plus concret, calculons l'arbre de partitionnement récursif pour `pima1`. Le package {mlearning} offre la fonction `ml_rpart()` pour ce faire.
 
 ```{r}
 set.seed(465)
-pima1_rpart <- mlRpart(data = pima1, diabetes ~ .)
+pima1_rpart <- ml_rpart(data = pima1, diabetes ~ .)
 pima1_rpart_conf <- confusion(cvpredict(pima1_rpart, cv.k = 10), pima1$diabetes)
 plot(pima1_rpart_conf)
 summary(pima1_rpart_conf, type = c("Fscore", "Recall", "Precision"))
 ```
 
-Ici, nous obtenons 25% d'erreur. Un intérêt du partitionnement récursif est de pouvoir visualiser le dendrogramme qui matérialise les règles choisies. Si cet arbre est relativement petit, nous pouvons aisément lire et tenter de comprendre la logique derrière ces règles. Les méthodes `plot()` et `text()` permettent de tracer l'arbre décisionnel calculé. Différents arguments permettent d'adapter la présentation du dendrogramme. Voyez l'aide en ligne de `?plot.rpart` et `?text.rpart`.
+Ici, nous obtenons 25% d'erreur. Un intérêt du partitionnement récursif est de pouvoir visualiser le "dendrogramme" qui matérialise les règles choisies. Si cet arbre est relativement petit, nous pouvons aisément lire et tenter de comprendre la logique derrière ces règles. Les méthodes `plot()` et `text()` permettent de tracer l'arbre décisionnel calculé. Différents arguments permettent d'adapter la présentation du dendrogramme. Voyez l'aide en ligne de `?plot.rpart` et `?text.rpart`.
 
 ```{r}
 # Visualisation et annotation de l'arbre
@@ -385,13 +385,13 @@ D'après notre classifieur par arbre de partitionnement, est-elle diabétique ou
 
 ![Chemin parcouru dans notre arbre décisionnel pour aboutir à la décision que l'Indienne de notre exemple soit probablement diabétique.](images/02-classification2/rpart2.png)
 
-Notons que toutes les variables n'ont pas été utilisées. `glucose` et `age` sont repris trois fois dans l'arbre. Les variables `insulin`, `mass`, `pressure` et `pedigree` sont également utilisées. Par contre, `triceps` n'est jamais utilisée, de même que `pregnant`. C'est une première indication de l'importance des variables dans la discrimination des classes, même si la version à partir de la forêt aléatoire à base de l'indice Gini (voir plus loin) sera plus efficace.
+Notons que toutes les variables n'ont pas été utilisées. `glucose` et `age` sont repris trois fois dans l'arbre. Les variables `insulin`, `mass`, `pressure` et `pedigree` sont également utilisées. Par contre, `triceps` n'est jamais utilisée, de même que `pregnant`. C'est une première indication de l'importance des variables dans la discrimination des classes, même si la version à partir de la forêt aléatoire à base de l'indice Gini (voir plus loin) sera plus efficace pour indiquer cela.
 
 Voyons ce que cela donne avec `pima2`. Pour rappel, ce jeu de données contient pratiquement deux fois plus de cas que `pima1`, mais pour cela, nous avons dû éliminer les variables `triceps` et `insulin`. Dans notre partitionnement récursif de `pima1`, `triceps` n'était pas utilisé, par contre, `insulin` était utilisé deux fois.
 
 ```{r}
 set.seed(9643)
-pima2_rpart <- mlRpart(data = pima2, diabetes ~ .)
+pima2_rpart <- ml_rpart(data = pima2, diabetes ~ .)
 pima2_rpart_conf <- confusion(cvpredict(pima2_rpart, cv.k = 10), pima2$diabetes)
 plot(pima2_rpart_conf)
 summary(pima2_rpart_conf, type = c("Fscore", "Recall", "Precision"))
@@ -415,32 +415,32 @@ La combinaison de plusieurs classifieurs donne quasi-systématiquement des meill
 
 - **stacking :** Les résultats d'un ou plusieurs classifieurs sont utilisés comme variables d'entrée pour un autre classifieur. En d'autre terme, les classifieurs sont reliés en série les uns derrière les autres.
 
-- **bagging : ** pour **b**ootstrap **agg**regating améliore la stabilité et la précision de la classification. Quelques méthodes sont implémentées notamment dans le package R {ipred}. Le principe consiste à générer plusieurs sets d'apprentissage artificiellement par échantillonnage avec remplacement (technique de bootstrap), à entraîner des classifieurs sur chaque set, et à ensuite résumer les résultat via un vote à la majorité.
+- **bagging : ** pour **b**ootstrap **agg**regating améliore la stabilité et la précision de la classification. Quelques méthodes sont implémentées notamment dans le package R {ipred}. Le principe consiste à générer plusieurs sets d'apprentissage artificiellement par échantillonnage avec remplacement (technique de bootstrap), à entraîner des classifieurs sur chaque set, et à ensuite résumer les résultat par un vote à la majorité.
 
 - **boosting :** entraîne successivement des classifieurs en se focalisant sur les erreurs du précédent. L'un des algorithmes les plus performants actuellement, **XGBoost** fait partie de cette catégorie (voir le package {xgboost} dans R).
 ```
 
-Les paramètres à définir sont le nombre d'arbres et le nombre de *p* attributs à choisir aléatoirement parmi tous les attributs à chaque nœud pour établir la règle de décision. C'est par cette présélection aléatoire de candidats de départ pour les règles que la variation est créée d'un arbre à l'autre. Cette présélection aléatoire est réitérée, naturellement, à chaque nœud de chaque arbre. Les paramètres choisis ici sont de 500 arbres et de 2*p*/3 attributs conservés aléatoirement à chaque nœud. Ces valeurs se sont montrées efficaces dans des études antérieures, et l'algorithme est, par ailleurs, relativement robuste face aux variations de ces paramètres autour des valeurs par défaut.
+Pour la forêt aléatoire, les paramètres principaux à définir sont le nombre d'arbres et le nombre de *p* attributs à choisir aléatoirement parmi tous les attributs à chaque nœud pour établir la règle de décision. C'est, entre autres, par cette présélection aléatoire de candidats de départ pour les règles que la variation est créée d'un arbre à l'autre. Cette présélection aléatoire est réitérée, naturellement, à chaque nœud de chaque arbre. Les paramètres choisis ici sont de 500 arbres et de 2*p*/3 attributs conservés aléatoirement à chaque nœud. Ces valeurs se sont montrées efficaces dans des études antérieures, et l'algorithme est, par ailleurs, relativement robuste face aux variations de ces paramètres autour des valeurs par défaut.
 
 ![Schéma du principe de la forêt aléatoire pour la classification. Cet algorithme crée un ensemble d'arbres de partitionnement différents où, à chaque nœud, une variable discriminante et un seuil sont choisis comme les meilleures règles, mais seulement parmi un sous-ensemble aléatoire de tous les attributs. Lorsque la forêt est construite, le même individu est présenté à la base de chaque arbre. Le groupe auquel il appartient est obtenu par un vote à la majorité de tous les arbres.](images/02-classification2/rforest.png)
 
 ### Pima avec forêt aléatoire
 
-La forêt aléatoire est disponible dans {mlearning}. Son utilisation est similaire aux autres fonctions du package, avec ici les arguments `ntree=` pour le nombre d'arbres, et `mtry=` pour le nombre de variables à sélectionner au hasard à chaque nœud. Par défaut, 500 arbres sont construits et les 2/3 des variables sont utilisées. Voyons ce que cela donne avec ces valeurs par défaut :
+La forêt aléatoire est disponible dans {mlearning}. Son utilisation est similaire aux autres fonctions du package, avec ici la fonction `ml_rforest()` et ses arguments `ntree=` pour le nombre d'arbres, et `mtry=` pour le nombre de variables à sélectionner au hasard à chaque nœud. Par défaut, 500 arbres sont construits et les 2/3 des variables sont utilisées. Voyons ce que cela donne avec ces valeurs par défaut :
 
 ```{r}
 set.seed(74356)
-pima1_rf <- mlRforest(data = pima1, diabetes ~ .)
+pima1_rf <- ml_rforest(data = pima1, diabetes ~ .)
 pima1_rf_conf <- confusion(cvpredict(pima1_rf, cv.k = 10), pima1$diabetes)
 plot(pima1_rf_conf)
 summary(pima1_rf_conf, type = c("Fscore", "Recall", "Precision"))
 ```
 
-Nous avons ici un peu moins de 22% d'erreur, soit le meilleur score de peu devant l'ADL. Notons que le temps de calcul est déjà non négligeable sur ce petit jeu de données (faites attention à de très gros jeux de données avec cette technique).
+Nous avons ici un peu plus de 21% d'erreur, soit le meilleur score de peu devant l'ADL. Notons que le temps de calcul est déjà non négligeable sur ce petit jeu de données (faites attention à de très gros jeux de données avec cette technique).
 
 ```{r}
 set.seed(9764)
-pima2_rf <- mlRforest(data = pima2, diabetes ~ .)
+pima2_rf <- ml_rforest(data = pima2, diabetes ~ .)
 pima2_rf_conf <- confusion(cvpredict(pima2_rf, cv.k = 10), pima2$diabetes)
 plot(pima2_rf_conf)
 summary(pima2_rf_conf, type = c("Fscore", "Recall", "Precision"))
@@ -452,7 +452,7 @@ Avec 23% d'erreur, nous avons encore une fois le meilleur classifieur. Nous pouv
 plot(pima1_rf)
 ```
 
-Comme il y a très clairement un aspect probabiliste ici, le graphique indique les erreurs minimales et maximales observées en rouge et en vert, respectivement. En noir, la tendance générale. Nous voyons qu'avec quelques arbres, l'erreur est plus importante, mais elle diminue ici rapidement pour se stabiliser vers les 200 arbres. Donc, si nous voulons gagner du temps de calcul sans perdre en performance, nous pourrions définir ici `ntree = 200` dans `mlRforest()`. Différentes valeurs pour l'argument `mtry()` pourraient aussi parfaitement être étudiées, mais en pratique, la valeur par défaut donne bien souvent déjà les meilleurs résultats.
+Comme il y a très clairement un aspect probabiliste ici, le graphique indique les erreurs minimales et maximales observées en rouge et en vert, respectivement. En noir, la tendance générale. Nous voyons qu'avec quelques arbres, l'erreur est plus importante, mais elle diminue ici rapidement pour se stabiliser vers les 200 arbres. Donc, si nous voulons gagner du temps de calcul sans perdre en performance, nous pourrions définir ici `ntree = 200` dans `ml_rforest()`. Différentes valeurs pour l'argument `mtry()` pourraient aussi parfaitement être étudiées, mais en pratique, la valeur par défaut donne bien souvent déjà les meilleurs résultats.
 
 Un autre graphique présente l'importance des variables : `varImpPlot()` du package {randomForest}.
 
@@ -466,14 +466,14 @@ Sur cette base, nous pouvons décider de simplifier notre modèle en laissant to
 
 ```{r}
 set.seed(85436)
-pima1_rf2 <- mlRforest(data = pima1, diabetes ~ glucose + insulin + age + mass + pedigree,
+pima1_rf2 <- ml_rforest(data = pima1, diabetes ~ glucose + insulin + age + mass + pedigree,
   ntree = 200)
 pima1_rf2_conf <- confusion(cvpredict(pima1_rf2, cv.k = 10), pima1$diabetes)
 plot(pima1_rf2_conf)
 summary(pima1_rf2_conf, type = c("Fscore", "Recall", "Precision"))
 ```
 
-Effectivement, avec un petit peu moins de 21%, c'est notre meilleur score jusqu'ici, tout en réduisant le nombre d'attributs nécessaires et d'arbres à calculer. Dans le module suivant, nous étudierons encore quelques concepts autour de la classification supervisée afin de réaliser un choix éclairé du meilleur classifieur.
+Effectivement, avec un petit peu moins de 22%, c'est l'un des meilleurs scores jusqu'ici, tout en réduisant le nombre d'attributs nécessaires et d'arbres à calculer. Dans le module suivant, nous étudierons encore quelques concepts autour de la classification supervisée afin de réaliser un choix éclairé du meilleur classifieur.
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -525,6 +525,28 @@ if (exists("assignment2"))
     clone = TRUE)
 -->
 ```
+
+##### À vous de jouer ! {.unnumbered}
+
+Ce projet sera traité par groupe de quatre étudiants. Il vous permettra de synthétiser vos connaissances acquises sur l'optimisation de classifieurs en apprentissage machine.
+
+```{r assign_C01Ga_metrics_II, echo=FALSE, results='asis'}
+if (exists("assignment2"))
+  assignment2("C01Ga_metrics", part = "II",
+    url = "https://github.com/BioDataScience-Course/C01Ga_metrics",
+    course.ids = c(
+      'S-BIOG-025'         = !"C01Ga_{YY}M_metrics"),
+    course.urls = c(
+      'S-BIOG-025'         = "https://classroom.github.com/a/2jy2rMUP"),
+    course.starts = c(
+      'S-BIOG-025'         = !"{W[5]+1} 08:00:00"),
+    course.ends = c(
+      'S-BIOG-025'         = !"{W[12]+2} 23:59:59"),
+    term = "Q1", level = 0, n = 4,
+    toc = "Aide-mémoire sur les métriques et optimisation (partie II)",
+    clone = TRUE)
+```
+
 ## Récapitulatif des exercices
 
 Dans ce second module, vous aviez à réaliser les exercices suivants :

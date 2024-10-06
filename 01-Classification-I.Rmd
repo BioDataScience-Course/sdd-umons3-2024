@@ -376,9 +376,9 @@ Plus loin dans le résumé d'une matrice de confusion effectuée avec le package
 
 Ce projet sera traité par groupe de quatre étudiants.
 
-```{r assign_C01Ga_metrics, echo=FALSE, results='asis'}
+```{r assign_C01Ga_metrics_I, echo=FALSE, results='asis'}
 if (exists("assignment2"))
-  assignment2("C01Ga_metrics", part = NULL,
+  assignment2("C01Ga_metrics", part = "I",
     url = "https://github.com/BioDataScience-Course/C01Ga_metrics",
     course.ids = c(
       'S-BIOG-025'         = !"C01Ga_{YY}M_metrics"),
@@ -387,9 +387,9 @@ if (exists("assignment2"))
     course.starts = c(
       'S-BIOG-025'         = !"{W[5]+1} 08:00:00"),
     course.ends = c(
-      'S-BIOG-025'         = !"{W[6]+1} 23:59:59"),
+      'S-BIOG-025'         = !"{W[12]+2} 23:59:59"),
     term = "Q1", level = 0, n = 4,
-    toc = "Aide-mémoire sur les métriques",
+    toc = "Aide-mémoire sur les métriques et optimisation (partie I)",
     clone = TRUE)
 ```
 

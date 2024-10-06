@@ -234,7 +234,7 @@ if (exists("assignment"))
     course.ids = c(
       'S-BIOG-025'         = !"C03Ia_{YY}M_cardiovascular"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/PbZWCAUY"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/1d1Y9FRD"),
     course.starts = c(
       'S-BIOG-025'         = !"{W[9]+1} 08:00:00"),
     course.ends = c(
@@ -516,7 +516,7 @@ if (exists("assignment"))
     course.ids = c(
       'S-BIOG-025'         = !"C03Ia_{YY}M_cardiovascular"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/PbZWCAUY"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/1d1Y9FRD"),
     course.starts = c(
       'S-BIOG-025'         = !"{W[9]+1} 08:00:00"),
     course.ends = c(
@@ -524,6 +524,26 @@ if (exists("assignment"))
     term = "Q1", level = 3,
     toc = "Métriques en fonction des proportions & SVM (partie II)")
 ```
+
+Vous devez aussi terminer le projet de groupe initié au module 1 (métriques) et continué au module 2 (optimisation).
+
+```{r assign_C01Ga_metrics_III, echo=FALSE, results='asis'}
+if (exists("assignment2"))
+  assignment2("C01Ga_metrics", part = "III",
+    url = "https://github.com/BioDataScience-Course/C01Ga_metrics",
+    course.ids = c(
+      'S-BIOG-025'         = !"C01Ga_{YY}M_metrics"),
+    course.urls = c(
+      'S-BIOG-025'         = "https://classroom.github.com/a/2jy2rMUP"),
+    course.starts = c(
+      'S-BIOG-025'         = !"{W[5]+1} 08:00:00"),
+    course.ends = c(
+      'S-BIOG-025'         = !"{W[12]+2} 23:59:59"),
+    term = "Q1", level = 0, n = 4,
+    toc = "Aide-mémoire sur les métriques et optimisation (partie III)",
+    clone = TRUE)
+```
+
 
 ##### Pour en savoir plus {.unnumbered}
 
@@ -543,8 +563,8 @@ if (exists("challenge"))
       'S-BIOG-025' = !"C03Ca_{YY}M_ml_wine",
       'sdd3late'   = !"C03Ca_{YY}M_ml_wine"),
     course.urls = c(
-      'S-BIOG-025' = "https://classroom.github.com/a/Rejeo-A4",
-      'sdd3late'   = "https://classroom.github.com/a/Rejeo-A4"),
+      'S-BIOG-025' = "https://classroom.github.com/a/wvLUo0Rh",
+      'sdd3late'   = "https://classroom.github.com/a/wvLUo0Rh"),
     course.starts = c(
       'S-BIOG-025' = !"{W[9]+3} 13:30:00",
       'sdd3late'   = !"{W[9]+3} 13:30:00"),
