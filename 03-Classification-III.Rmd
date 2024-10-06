@@ -22,7 +22,7 @@ Ce module constitue le troisième volet d'une trilogie consacrée à la classifi
 
 À partir du moment où la classification ne se fait pas sans erreurs, nous avons la présence de faux positifs et de faux négatifs. Le fait d'être un faux positif ou un faux négatif dépend essentiellement du point de vue, c'est-à-dire, de la classe d'intérêt. Cependant ces erreurs restent des erreurs, quel que soit le point de vue (sauf si nous fusionnons les classes confondues, bien évidemment). Un élément important à considérer est que le taux d'erreur, qu'il soit global ou local tel que mesuré, par exemple, par le rappel ou la précision pour une classe cible **dépend énormément des proportions d'occurrences observées dans les différentes classes**, et ce, aussi bien dans la phase d'apprentissage que de test ou de déploiement.
 
-Ce problème nous ramène, en réalité à des calculs basiques de probabilités et au théorème de Bayes que nous avons abordés dans le [module 7 du premier cours de science des données biologiques](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/probabilit%25C3%25A9s.html). **Rappelez-vous, nous avions traité le cas du dépistage d'une maladie, dont le résultat dépendait du fait que la maladie est fréquente ou rare dans la population (sa prévalence)**. Si vous ne vous souvenez plus de quoi il s'agit, il peut être utile de relire maintenant les sections 7.1.1 à 7.1.3 de ce premier cours, car ce contenu s'applique parfaitement ici.
+Ce problème nous ramène, en réalité à des calculs basiques de probabilités et au théorème de Bayes que nous avons abordés dans le [module 6 du premier cours de science des données biologiques](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/proba.html%23th%C3%A9or%C3%A8me-de-bayes). **Rappelez-vous, nous avions traité le cas du dépistage d'une maladie, dont le résultat dépendait du fait que la maladie est fréquente ou rare dans la population (sa prévalence)**. Si vous ne vous souvenez plus de quoi il s'agit, il peut être utile de relire maintenant les sections 6.1.1 à 6.1.3 de ce premier cours, car ce contenu s'applique parfaitement ici.
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -40,14 +40,14 @@ Par contre, calculons maintenant la précision pour A, si nous savons que notre 
 
 `r h5p(240, height = 270, toc = "Calcul de précision")`
 
-**Dans le second cas, la précision pour la classe A a diminué de manière très nette, rien qu'en changeant les proportions relatives de A et de B dans notre échantillon, les performances de notre classifieur n'ayant absolument pas été modifiées entre les deux situations.** Nous venons de démontrer que les métriques, dès qu'il y a la moindre erreur de classification possible, sont très sensibles aux proportions relatives des individus dans les classes. Notons que la diminution de la précision dans le cas (2) est liée à la fois à la diminution des vrais positifs (puisqu'il y a moins de A dans notre set), et à l'augmentation des faux positifs, qui dépendent eux de la quantité de B en augmentation. Notons que le raisonnement est symétrique. Donc, le rappel sera également impacté dès que le taux de classification correcte pour A devient inférieur à 100%.
+**Dans le second cas, la précision pour la classe A a diminué de manière très nette, rien qu'en changeant les proportions relatives de A et de B dans notre échantillon, les performances de notre classifieur n'ayant absolument pas été modifiées entre les deux situations.** Nous venons de démontrer que certaines métriques, dès qu'il y a la moindre erreur de classification possible, sont très sensibles aux proportions relatives des individus dans les classes. Notons que la diminution de la précision dans le cas (2) est liée à la fois à la diminution des vrais positifs (puisqu'il y a moins de A dans notre set), et à l'augmentation des faux positifs, qui dépendent eux de la quantité de B en augmentation.
 
 À l'extrême, il devient très difficile de classer correctement des items appartenant à des classes rares à cause de ce phénomène. En effet, si A ne représente plus que 1% de l'échantillon, nous aurons un seul vrai positif, et 10% de 99, soit pratiquement 10 faux positifs pour un lot de 100 individus. Donc, la précision pour A devient $1 / (1 + 10)$, soit 9% seulement. Nous verrons alors notre classifieur comme *très mauvais* à l'examen des items qu'il prétend être des A, et pour lesquels la grosse majorité ne le sera pas. Pourtant, il classe A sans aucune erreur et ne fait que 10% d'erreur pour B, ce qui, présenté de la sorte, passe pour un bon classifieur.
 
-```{block2, type = 'warning'}
-Les différentes métriques qui mesurent les performances de nos classifieurs sont très sensibles aux proportions relatives des différentes classes. Comme l'optimisation des classifieurs se fait sur base de ces métriques, elle est elle-même dépendante des proportions relatives des classes dans le set d'apprentissage.
+```{block, type = 'warning'}
+Plusieurs métriques qui mesurent les performances de nos classifieurs sont très sensibles aux proportions relatives des différentes classes. Comme l'optimisation des classifieurs se fait sur base de ces métriques, elle est elle-même dépendante des proportions relatives des classes dans le set d'apprentissage.
 
-De plus, si les proportions relatives des items dans les classes diffèrent entre le set de test et les échantillons à classer lors du déploiement du classifieur, les valeurs calculées lors de la phase de test seront biaisées et ne reflèterons pas du tout les performances réelles du classifeur, une fois déployé.
+De plus, si les proportions relatives des items dans les classes diffèrent entre le set de test et les échantillons à classer lors du déploiement du classifieur, les valeurs calculées lors de la phase de test seront biaisées et ne refléteront pas du tout les performances réelles du classifeur, une fois déployé.
 ```
 
 ### Proportions en apprentissage
@@ -60,7 +60,7 @@ Une première conséquence intéressante de ce que nous venons d'observer est qu
 
 Reprenons l'exemple de nos Amérindiens de la tribu Pima confrontés au diabète (en n'utilisant que les cas complets).
 
-```{r}
+```{r, warning=FALSE}
 SciViews::R("ml", lang = "fr")
 pima <- read("PimaIndiansDiabetes2", package = "mlbench")
 pima1 <- sdrop_na(pima)
@@ -72,14 +72,14 @@ Comme nous l'avions déjà signalé, nous avons deux fois plus de cas négatifs 
 
 ```{r}
 set.seed(3631)
-pima1_rf <- mlRforest(data = pima1, diabetes ~ ., ntree = 500)
+pima1_rf <- ml_rforest(data = pima1, diabetes ~ ., ntree = 500)
 pima1_rf_conf <- confusion(cvpredict(pima1_rf, cv.k = 10), pima1$diabetes)
 summary(pima1_rf_conf)
 ```
 
-Notez que le rappel (*Recall*) est plus faible pour les cas positifs (60%) que pour les cas négatifs (88%). Ce n'est pas forcément toujours comme cela, mais relativement fréquent, car notre classifieur est optimisé pour réduire l'erreur globale. Dans cette situation, ayant plus de cas négatifs, il vaut mieux déclarer un cas douteux comme négatif puisque le risque de se tromper est plus faible que de le déclarer positif. La précision pour `pos` est de 71.5%. Admettons que nous souhaitons maintenant étudier un maximum de ces Indiennes diabétiques. Le rappel pour la classe `pos` est notre métrique importante, or c'est la valeur la plus faible actuellement. Comme faire pour l'augmenter sans changer d'algorithme de classification ? Et bien, une des façons de procéder consiste à changer délibérément les proportions des classes dans le set d'apprentissage. Si nous prenons le même nombre d'individus positifs que négatifs en **sous-échantillonnant**, cela donne ceci :
+Notez que le rappel (*Recall*) est plus faible pour les cas positifs (61%) que pour les cas négatifs (88%). Ce n'est pas forcément toujours comme cela, mais relativement fréquent, car notre classifieur est optimisé pour réduire l'erreur globale. Dans cette situation, ayant plus de cas négatifs, il vaut mieux déclarer un cas douteux comme négatif puisque le risque de se tromper est plus faible que de le déclarer positif. La précision pour `pos` est de 71%. Admettons que nous souhaitons maintenant étudier un maximum de ces Indiennes diabétiques. Le rappel pour la classe `pos` est notre métrique importante, or c'est la valeur la plus faible actuellement. Comme faire pour l'augmenter sans changer d'algorithme de classification ? Et bien, une des façons de procéder consiste à changer délibérément les proportions des classes dans le set d'apprentissage. Si nous prenons le même nombre d'individus positifs que négatifs en **sous-échantillonnant**, cela donne ceci :
 
-```{r}
+```{r, warning=FALSE}
 # Rééchantillonnage du set
 set.seed(845)
 pima1 %>.%
@@ -92,7 +92,7 @@ table(pima1b$diabetes) |>
 
 ```{r}
 set.seed(854)
-pima1b_rf <- mlRforest(data = pima1b, diabetes ~ ., ntree = 500)
+pima1b_rf <- ml_rforest(data = pima1b, diabetes ~ ., ntree = 500)
 pima1b_rf_conf <- confusion(cvpredict(pima1b_rf, cv.k = 10), pima1b$diabetes)
 summary(pima1b_rf_conf)
 ```
@@ -103,17 +103,17 @@ Le rappel pour la classe `pos` est monté de 60% (`pima1`) à 80% (`pima1b`). En
 
 `r h5p(242, height = 270, toc = "Rappel avec proportions modifiées")`
 
-```{block2, type = 'note'}
+```{block, type = 'note'}
 Il existe plusieurs approches pour modifier les proportions relatives dans vos classes pour les sets de test et d'apprentissage. Celle que nous venons d'utiliser consiste à **réduire** le nombre d'items des classes les plus abondantes. Ici, nous comprenons intuitivement qu'une perte d'information n'est pas une bonne chose.
 
-Nous pouvons aussi manipuler les **poids** des individus en les augmentant pour les classes rare, si la fonction qui calcule le classifieur supporte cette option, par exemple, `classwt=` pour `mlRforest()`. Si ce n'est pas le cas, nous pouvons simuler un poids de 2 ou de 3 en dupliquant ou tripliquant ces individus dans le set.
+Nous pouvons aussi manipuler les **poids** des individus en les augmentant pour les classes rare dans le set d'apprentissage, si la fonction qui calcule le classifieur supporte cette option, par exemple, `classwt=` pour `ml_rforest()`. Si ce n'est pas le cas, nous pouvons simuler un poids de 2 ou de 3 en dupliquant ou tripliquant ces individus dans le set d'apprentissage (mais alors attention : la validation croisée n'est plus utilisable, car on risque d'avoir les mêmes individus dupliqués ou tripliqués en apprentissage et en test simultanément).
 
-Enfin, il existe des techniques d'augmentation du nombre d'items par classe via la synthèse de cas artificiels en se basant sur l'information contenue dans le tableau de départ. L'une des techniques les plus utilisées s'appelle "SMOTE". Ce [blog](https://towardsdatascience.com/stop-using-smote-to-treat-class-imbalance-take-this-intuitive-approach-instead-9cb822b8dc45) l'explique en même temps qu'il montre que cela peut être dangereux d'augmenter artificiellement le nombre d'items. Nous vous conseillons donc d'utiliser plutôt l'une des deux approches expliquées ci-dessus (réduction des classes abondantes ou surpondération, éventuellement en les dupliquant, des items des classes rares). Mais n'exagérez jamais trop dans la façon dont vous distordez les proportions par classes par rapport à la réalité, et gardez toujours à l'esprit que vos métriques sont alors biaisées de manière optimiste.
+Enfin, il existe des techniques d'augmentation du nombre d'items par classe via la synthèse de cas artificiels en se basant sur l'information contenue dans le tableau de départ. L'une des techniques les plus utilisées s'appelle "SMOTE". Ce [blog](https://towardsdatascience.com/stop-using-smote-to-treat-class-imbalance-take-this-intuitive-approach-instead-9cb822b8dc45) l'explique en même temps qu'il montre que cela peut être dangereux d'augmenter artificiellement le nombre d'items. Nous vous conseillons donc d'utiliser plutôt l'une des deux approches expliquées ci-dessus (réduction des classes abondantes ou surpondération, éventuellement en les dupliquant, des items des classes rares dans le set d'apprentissage). Mais n'exagérez jamais trop dans la façon dont vous distordez les proportions par classes par rapport à la réalité, et gardez toujours à l'esprit que vos métriques sont alors biaisées de manière optimiste.
 ```
 
 Voici comment nous pouvons surpondérer les classes plus rares par duplication, dans le cas de notre jeu de données `pima1`. Nous commençons par définir une fonction `over_undersample()` que vous pouvez réutiliser dans vos projets ou dans le challenge[^03-classification-iii-1]. Vous lui donnez le vecteur de classes dont il faut modifier les proportions. Vous donnez aussi un vecteur de pondérations (1 = garder tout, \< 1 = sous échantillonner la classe dans ces proportions, et \> 1 = suréchantillonner la classe). Une pondération de 2 signifie dupliquer tous les items dans la classe, par exemple. Si vous ne donnez pas de vecteur de pondération, la fonction homogénéisera les proportions dans toutes les classes automatiquement. Un argument `total=` indique la taille souhaitée du jeu de données rééchantillonné. Enfin, l'argument `min_warning` permettra d'imprimer un message d'avis si l'effectif d'un classe est inférieur à cette valeur (10 par défaut). Le résultat renvoyé doit être utilisé pour sélectionner les lignes du tableau (voir exemple d'application ci-dessous).
 
-[^03-classification-iii-1]: La fonction `over_undersample()` sera incluse dans la prochaine version du package {mlearning}, donc pour la SciViews Box 2024.
+[^03-classification-iii-1]: La fonction `over_undersample()` sera incluse dans la prochaine version du package {mlearning}, donc pour la SciViews Box 2025.
 
 ```{r}
 over_undersample <- function(x, weights = NULL,
@@ -161,9 +161,9 @@ over_undersample <- function(x, weights = NULL,
 
 ```
 
-Dans le cas du suréchantillonnage, on va dupliquer des items. Cela signifie que l'on ne peut pas diviser ensuite en set d'apprentissage et set de test, ni utiliser la validation croisée. Nous ne pouvons suréchantillonner **que le set d'apprentissage**, et nous devons nous assurer qu'aucun item dupliqué ne soit ensuite dispatché entre le set d'apprentissage et celui de test (sinon, on aura les *mêmes items* des deux côtés, ce qui interdit).
+**Répétons-le :** dans le cas du suréchantillonnage, on va dupliquer des items. Cela signifie que l'on ne peut pas diviser ensuite en set d'apprentissage et set de test, ni utiliser la validation croisée. Nous ne pouvons suréchantillonner **que le set d'apprentissage**, et nous devons nous assurer qu'aucun item dupliqué ne soit ensuite dispatché entre le set d'apprentissage et celui de test (sinon, on aura les *mêmes items* des deux côtés, ce qui interdit).
 
-```{r}
+```{r, warning=FALSE}
 # Séparer d'abord set d'apprentissage et set de test
 set.seed(9856)
 pima1_split <- initial_split(pima1, 2/3, strata = diabetes)
@@ -177,7 +177,7 @@ table(pima1_train$diabetes) |> # Tableau mal balancé
 
 Ensuite, nous homogénéisons les classes en dupliquant les cas positifs, *mais uniquement dans le set d'apprentissage*.
 
-```{r}
+```{r, warning=FALSE}
 # Pondération double pour les cas positifs en les dupliquant
 resample_idx <- over_undersample(pima1_train$diabetes,
   weights = c(neg = 1, pos = 2))
@@ -198,15 +198,15 @@ pima_prior <- structure(as.numeric(pima_prior), names = names(pima_prior))
 pima_prior
 ```
 
-```{block2, type = 'note'}
-Dans le cas où les probabilités *a priori* ne sont pas calculée à partir des données mais sont obtenues depuis la littérature, il suffit de créer un vecteur numerique avec `c()` en nommant les différentes probabilités du même nom que les niveaux de la variable facteur réponse. Par exemple, ici, notre variable réponse a les niveaux `neg` et `pos`. Si nous trouvons l'information que la prévalence du diabète dans cette population est de 13.5%, nous écrirons nos probabilités *a priori* comme `pima_prior <- c(neg = 0.865, pos = 0.135)`. La somme des probabilités doit être de un bien entendu.
+```{block, type = 'note'}
+Dans le cas où les probabilités *a priori* ne sont pas calculée à partir des données mais sont obtenues depuis la littérature, il suffit de créer un vecteur numérique avec `c()` en nommant les différentes probabilités du même nom que les niveaux de la variable facteur réponse. Par exemple, ici, notre variable réponse a les niveaux `neg` et `pos`. Si nous trouvons l'information que la prévalence du diabète dans cette population est de 13.5%, nous écrirons nos probabilités *a priori* comme `pima_prior <- c(neg = 0.865, pos = 0.135)`. La somme des probabilités doit être de un bien entendu.
 ```
 
 ##### À vous de jouer ! {.unnumbered}
 
 `r h5p(243, height = 270, toc = "Probabilités a priori et set d'apprentissage")`
 
-De nombreux algorithmes de classification peuvent nous renvoyer des probabilités d'appartenir à une classe (la prédiction de la classe n'est que celle qui a la probabilité la plus élevée, en réalité). L'arbre de probabilités (résolution graphique), ou un calcul simple de probabilités faisant intervenir le théorème de Bayes (résolution numérique) permet de combiner les probabilités *a priori* et les probabilités issues du classifieur pour calculer ce que nous appelons les **probabilités *a posteriori***, c'est-à-dire les probabilités d'être A ou B approchant les valeurs que nous observerons en déploiement de notre classifieur. Ce calcul nous l'avions déjà fait dans le [module 7 du cours I](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/probabilit%25C3%25A9s.html). Nous ne redéveloppons pas ces calculs ici. Encore une fois, vous êtes invité à relire cette section si vous ne vous en souvenez plus.
+De nombreux algorithmes de classification peuvent nous renvoyer des probabilités d'appartenir à une classe (la prédiction de la classe n'est que celle qui a la probabilité la plus élevée, en réalité). L'arbre de probabilités (résolution graphique), ou un calcul simple de probabilités faisant intervenir le théorème de Bayes (résolution numérique) permet de combiner les probabilités *a priori* et les probabilités issues du classifieur pour calculer ce que nous appelons les **probabilités *a posteriori***, c'est-à-dire les probabilités d'être A ou B approchant les valeurs que nous observerons en déploiement de notre classifieur. Ce calcul nous l'avions déjà fait dans le [module 6 du cours I](https://wp.sciviews.org/sdd-umons/?iframe=wp.sciviews.org/sdd-umons-2024/proba.html%23th%C3%A9or%C3%A8me-de-bayes). Nous ne redéveloppons pas ces calculs ici. Encore une fois, vous êtes invité à relire cette section si vous ne vous en souvenez plus.
 
 Dans {mlearning}, les probabilités *a priori* peuvent être injectées dans l'objet **confusion** pour corriger nos métriques en faveur de valeurs plus réalistes relatives aux probabilités *a posteriori*. Donc, pour nos métriques obtenues à l'aide du set d'apprentissage `pima1b` aux proportions modifiées, nous rétablissons des valeurs plus plausibles par rapport à la population étudiée, et en même temps, plus comparables avec les métriques sur `pima1` en procédant comme suit :
 
@@ -245,13 +245,13 @@ if (exists("assignment"))
 
 ## Courbes ROC
 
-Avant d'aborder les courbes ROC, nous devons nous concentrer sur le **seuil de détection** (*cutoff* en anglais). Dans un classifieur à deux classes avec la forêt aléatoire, un vote à la majorité des arbres revient à dire que plus de la moitié des arbres a voté pour la classe retenue. Ceci correspond donc à un seuil de 50%. Mais qu'est-ce qui vous empêcherait d'utiliser un seuil différent ? Intuitivement, nous réalisons tout de suite que si nous **durcissons** le seuil pour la classe cible (par exemple, un individu ne sera déclaré de cette classe, appelée *A*, qu'à partir du moment où 70% ou plus des arbres ont voté en ce sens), nous aurons au final *moins* d'individus *A* dans notre prédiction. Cela aura probablement pour conséquence d'augmenter la précision (car plus de cas difficiles à discriminer auront été attribués à la classe *B*, or il est possible de montrer qu'une partie importante de l'erreur se situe justement dans ces cas moins nets). En revanche, cela diminue le rappel (car parmi ces cas difficile, il y a tout de même des *A* qui ne sont plus classés comme tels). Rappelez-vous toujours du fameux compromis rappel - précision. Choisir un seuil moins sensible, par exemple 30%, aura l'effet inverse d'augmenter les prédictions *A*, ainsi que le rappel, mais de diminuer précision et sensibilité. Sachant cela, nous pouvons nous demander s'il existe un seuil optimal. La courbe ROC permet de le déterminer.
+Avant d'aborder les courbes ROC, nous devons nous concentrer sur le **seuil de détection** (*cutoff* en anglais). Dans un classifieur à deux classes avec la forêt aléatoire, un vote à la majorité des arbres revient à dire que plus de la moitié des arbres a voté pour la classe retenue. Ceci correspond donc à un seuil de 50%. Mais qu'est-ce qui vous empêcherait d'utiliser un seuil différent ? Intuitivement, nous réalisons tout de suite que si nous **durcissons** le seuil pour la classe cible (par exemple, un individu ne sera déclaré de cette classe, appelée *A*, qu'à partir du moment où 70% ou plus des arbres ont voté en ce sens), nous aurons au final *moins* d'individus *A* dans notre prédiction. Cela aura probablement pour conséquence d'augmenter la précision (car plus de cas difficiles à discriminer auront été attribués à la classe *B*, or il est possible de montrer qu'une partie importante de l'erreur se situe justement dans ces cas moins nets). En revanche, cela diminue le rappel (car parmi ces cas difficiles, il y a tout de même des *A* qui ne sont plus classés comme tels). Rappelez-vous toujours du fameux compromis rappel - précision. Choisir un seuil moins sensible, par exemple 30%, aura l'effet inverse d'augmenter les prédictions *A*, ainsi que le rappel, mais de diminuer précision et sensibilité. Sachant cela, nous pouvons nous demander s'il existe un seuil optimal. La courbe ROC permet de le déterminer.
 
-```{block2, type = 'note'}
+```{block, type = 'note'}
 Outre la variation des proportions relatives des individus dans le set d'apprentissage, nous pouvons aussi faire varier les performances de notre classifieur entre rappel et précision en modifiant le **seuil de détection**.
 ```
 
-La **courbe ROC (pour "Receiver Operating Characteristic")** est une courbe qui représente le comportement de notre classifieur à deux classes pour tous les seuils de détection possibles. Si nous utilisons les probabilités d'appartenance à la classe cible renvoyées par notre classifieur au lieu des prédictions, nous pourrions choisir librement à partir de quelle probabilité nous considérons qu'un item est de cette classe. En prenant des seuils de 0 à 1 (ou 100%), nous balayons toutes les possibilités. À chaque seuil, nous pouvons calculer le taux de vrais positifs et le taux de faux positifs. La courbe ROC représente ces résultats avec le taux de faux positifs sur l'axe x et le taux de vrais positifs sur l'axe y. Pour illustrer cela, nous allons calculer la courbe ROC pour notre classifieur forêt aléatoire `pima1_rf`.
+La **courbe ROC (pour "Receiver Operating Characteristic")** est une courbe qui représente le comportement de notre classifieur à deux classes pour tous les seuils de détection possibles. Si nous utilisons les probabilités d'appartenance à la classe cible renvoyées par notre classifieur au lieu des prédictions, nous pourrions choisir librement à partir de quelle probabilité nous considérons qu'un item est de cette classe. En prenant des seuils de 0 à 1 (ou 100%), nous balayons toutes les possibilités. À chaque seuil, nous pouvons calculer le taux de vrais positifs et le taux de faux positifs. La courbe ROC représente ces résultats avec le taux de faux positifs sur l'axe X et le taux de vrais positifs sur l'axe Y. Pour illustrer cela, nous allons calculer la courbe ROC pour notre classifieur forêt aléatoire `pima1_rf`.
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -333,9 +333,9 @@ Nous pouvons observer que notre second classifieur `pima1b_rf` est effectivement
 
 Les **machines à vecteurs supports** (*Support Vector Machine* en anglais, ou SVM en abrégé) forment une autre famille d'algorithmes utilisables en classification supervisée. Au départ, l'idée est simple : il s'agit de déterminer le meilleur hyperplan qui divise l'hyperespace représenté par les attributs décrivant un cas à deux classes. Avec deux attributs seulement (cas le plus simple, disons *x~1~* et *x~2~*), cela signifie que nous recherchons une **droite** qui divise notre plan *x~1~-x~2~* en deux, chaque région issue de cette séparation représentant le domaine de l'une des deux classes.
 
-Jusqu'ici, l'idée nous semble assez similaire à l'ADL. La grosse différence, c'est que dans l'ADL nous utilisons toutes les données pour définir la position de la frontière, alors que dans SVM, nous n'utilisons que les individus au niveau de la frontière qui forment les fameux "vecteurs supports" à l'origine du nom de la technique. Ces vecteurs supports définissent une **marge** autour de la frontière. Cette dernière est positionnée de telle façon que la marge en question soit la plus large possible. En d'autres termes, nous cherchons à définir un "no-man's land", un fossé le plus large possible autour de la frontière tracée entre les deux classes. Cette approche s'avère judicieuse et performante en pratique.
+Jusqu'ici, l'idée nous semble assez similaire à l'ADL. La grosse différence, c'est que dans l'ADL nous utilisons toutes les données pour définir la position de la frontière, alors que dans SVM, nous n'utilisons que les individus au niveau des frontières qui forment les fameux "vecteurs supports" à l'origine du nom de la technique. Ces vecteurs supports définissent une **marge** autour des frontières. Ces dernières sont positionnées de telle façon que la marge en question soit la plus large possible. En d'autres termes, nous cherchons à définir un "no-man's land", un fossé le plus large possible autour d'une frontière tracée entre deux classes. Cette approche s'avère judicieuse et performante en pratique.
 
-![Logique de SVM pour positionner la frontière entre les deux classes à l'aide de vecteurs supports définissant une marge (en jaune) de part et d'autre de la frontière (en rouge). La frontière est tracée de telle façon que cette marge soit la plus large possible (schéma issu de Wikipédia, une fois n'est pas coutume).](images/03-classification3/svm-margin.png)
+![Logique de SVM pour positionner la frontière entre les deux classes à l'aide de vecteurs supports définissant une marge (en jaune) de part et d'autre de la frontière (en rouge). La frontière est tracée de telle façon que cette marge soit la plus large possible (schéma issu de Wikipédia).](images/03-classification3/svm-margin.png)
 
 Bon, il nous reste à contourner deux limitations pour que la méthode soit utilisable dans des situations plus générales :
 
@@ -370,7 +370,7 @@ Bien qu'il ne semble pas évident au premier abord que SVM ne soit défini que p
 
 Par exemple pour trois classes A, B, et C, dans l'approche "macro" nous comparerons A avec B + C en un classifieur unique pour décider si l'item appartient à A ou non. Dans l'approche "micro", nous comparerons A avec B d'un côté, puis A avec C d'un autre côté (deux classifieurs différents). Nous établirons ensuite un consensus entre ces deux classifieurs pour décider si l'item appartient à la classe A ou non. Ensuite dans les deux approches, nous faisons de même en ciblant cette fois-ci la classe B, et puis finalement la classe C. En rassemblant tous les résultats et en comparant les probabilités d'appartenance aux différentes classes renvoyées par les classifieurs individuels binaires, nous obtenons finalement un classifieur global multiclasse. C'est ainsi que SVM multiclasse fonctionne.
 
-```{block2, type = 'info'}
+```{block, type = 'info'}
 La décomposition d'un classifieur multiclasses en une série de classifieurs binaire par approche "macro" ou "micro" est utile en SVM. Elle l'est aussi pour établir des métriques de performance globales sur base de métriques qui ne se calculent normalement qu'avec deux classes. Nous l'avons déjà abordé dans le module précédent.
 
 Par exemple, dans le cas du score *F*, nous pouvons calculer un score *F* global pour l'ensemble d'un classifieur multiclasses en moyennant les scores *F* de chaque classe. Par contre, comme deux approches co-existent, nous avons donc deux versions : le score *F* "micro" et le score *F* "macro". Le premier déterminera une balance entre les comparaisons deux à deux (un comparé à un) de toutes les classes, tandis que le second envisagera le problème de manière plus globale (un comparé à tous). Les deux points de vue se complètent plus qu'ils ne s'opposent.
@@ -386,40 +386,40 @@ Les approches "micro" et "macro" permettent toutes deux de transformer un probl�
 
 ### SVM et Pima
 
-Voyons maintenant ce que donne un classifieur SVM sur notre jeu de données `pima1`. Une version de SVM étant disponible dans {mlearning}, nous pouvons appliquer cet algorithme facilement avec un code R qui nous est à présent familier (nous choisissons ici la validation croisée dix fois pour en quantifier les performances).
+Voyons maintenant ce que donne un classifieur SVM sur notre jeu de données `pima1`. Une version de SVM étant disponible dans {mlearning} avec la fonction `ml_svm()`, nous pouvons appliquer cet algorithme facilement avec un code R qui nous est à présent familier (nous choisissons ici la validation croisée dix fois pour en quantifier les performances).
 
 ```{r}
 set.seed(3674)
-pima1_svm <- mlSvm(data = pima1, diabetes ~ .)
+pima1_svm <- ml_svm(data = pima1, diabetes ~ .)
 pima1_svm_conf <- confusion(cvpredict(pima1_svm, cv.k = 10), pima1$diabetes)
 plot(pima1_svm_conf)
 summary(pima1_svm_conf)
 ```
 
-Ici, avec tous les arguments par défaut de `mlSvm()` nous avons un taux d'erreur de 24%, mais plus important, des *F* micro et macro d'environ 0.71. Si nous comparons à notre classifieur forêt aléatoire sur les mêmes données, nous avions 21% d'erreur et *F* micro ou macro de 0.75. Donc, notre SVM non optimisé fait moins bien que la forêt aléatoire... mais le travail n'est pas terminé. Le noyau par défaut (`kernel =`) est `radial`. Les autres options (voir `?e1071::svm`) sont `linear` pour aucune transformation, `polynomial` (dans ce cas, préciser aussi `degree` et `coef0`, 3 et 0 respectivement par défaut) pour une frontière plus générale et `sigmoid` (préciser `coef0`, 0 par défaut).
+Ici, avec tous les arguments par défaut de `mlSvm()` nous avons un taux d'erreur de 24%, mais plus important, des *F* micro et macro d'environ 71%. Si nous comparons à notre classifieur forêt aléatoire sur les mêmes données, nous avions 21% d'erreur et *F* micro ou macro de 0.75. Donc, notre SVM non optimisé fait moins bien que la forêt aléatoire... mais le travail n'est pas terminé. Le noyau par défaut (`kernel =`) est `radial`. Les autres options (voir `?e1071::svm`) sont `linear` pour aucune transformation, `polynomial` (dans ce cas, préciser aussi `degree` et `coef0`, 3 et 0 respectivement par défaut) pour une frontière plus générale et `sigmoid` (préciser `coef0`, 0 par défaut).
 
 Un noyau linéaire fait mieux que le noyau radial :
 
 ```{r}
 set.seed(857)
-pima1_svm2 <- mlSvm(data = pima1, diabetes ~ ., kernel = "linear")
+pima1_svm2 <- ml_svm(data = pima1, diabetes ~ ., kernel = "linear")
 pima1_svm2_conf <- confusion(cvpredict(pima1_svm2, cv.k = 10), pima1$diabetes)
 plot(pima1_svm2_conf)
 summary(pima1_svm2_conf)
 ```
 
-On se rapproche des scores de la forêt aléatoire ici avec un *F* micro de 0.74 et un *F* macro de 0.736. Le noyau sigmoïde est ici désastreux, mais le noyau polynomial de degré 2 et avec un `coef0 = 1` donne ceci :
+On se rapproche des scores de la forêt aléatoire ici avec un *F* micro et macro de 74%. Le noyau sigmoïde est ici désastreux, mais le noyau polynomial de degré 2 et avec un `coef0 = 1` donne ceci :
 
 ```{r}
 set.seed(150)
-pima1_svm3 <- mlSvm(data = pima1, diabetes ~ ., kernel = "polynomial",
+pima1_svm3 <- ml_svm(data = pima1, diabetes ~ ., kernel = "polynomial",
   degree = 2, coef0 = 1)
 pima1_svm3_conf <- confusion(cvpredict(pima1_svm3, cv.k = 10), pima1$diabetes)
 plot(pima1_svm3_conf)
 summary(pima1_svm3_conf)
 ```
 
-Avec un *F* micro de 0.747 et un *F* macro de 0.739, nous nous rapprochons très fortement des performances de la forêt aléatoire.
+Avec un *F* micro de 74.7% et un *F* macro de 74%, nous nous rapprochons très fortement des performances de la forêt aléatoire.
 
 ##### À retenir {.unnumbered}
 
@@ -441,11 +441,11 @@ Les réseaux de neurones artificiels sont des techniques très sophistiquées. E
 
 ### Pima avec réseau de neurones
 
-Un réseau de neurones simple à une seule couche cachée est disponible avec la fonction `mlNnet()` dans {mlearning}. L'utilisation est similaire aux autres fonctions du package :
+Un réseau de neurones simple à une seule couche cachée est disponible avec la fonction `ml_nnet()` dans {mlearning}. L'utilisation est similaire aux autres fonctions du package :
 
 ```{r}
 set.seed(85460)
-pima1_nnet <- mlNnet(data = pima1, diabetes ~ .)
+pima1_nnet <- ml_nnet(data = pima1, diabetes ~ .)
 pima1_nnet_conf <- confusion(cvpredict(pima1_nnet, cv.k = 10), pima1$diabetes)
 plot(pima1_nnet_conf)
 summary(pima1_nnet_conf)
@@ -483,7 +483,7 @@ vembedr::embed_youtube("gn4nRCC9TwQ", width = 770, height = 433)
 
 Malheureusement, l'apprentissage profond nécessite une quantité importante de calculs et tous les ordinateurs ne sont pas capables d'entraîner un tel modèle. Il faut généralement utiliser des processeurs GPU (donc des cartes graphiques puissantes) pour arriver à des vitesses d'apprentissage raisonnables. Nous allons donc nous limiter à un renvoi vers une petite démonstration simpliste juste pour vous illustrer la façon dont cela se passe.
 
-Le jeu de données [MNIST](http://yann.lecun.com/exdb/mnist/) est un jeu de données ultra-classique et historique dans le développement de l'apprentissage profond. Il s'agit de plusieurs dizaines de milliers de chiffres manuscrits qui ont été numérisés. Le but est de créer un classifieur capable de reconnaître l'écriture manuscrite de nombres en reconnaissance, donc les chiffres de 0 à 9. La résolution de ce problème dans R est présentée [ici](https://tensorflow.rstudio.com/tutorials/beginners/). C'est un excellent point de départ si vous voulez vous lancer dans l'apprentissage profond. Dans le cadre de ce cours, nous n'irons cependant pas plus loin. Sachez toutefois que les meilleurs classifieurs en apprentissage profond sont actuellement capables de faire aussi bien, *voire mieux* dans la lecture de nombres en écriture manuscrite qu'un opérateur humain.
+Le jeu de données [MNIST](http://yann.lecun.com/exdb/mnist/) est un jeu de données ultra-classique et historique dans le développement de l'apprentissage profond. Il s'agit de plusieurs dizaines de milliers de chiffres manuscrits qui ont été numérisés. Le but est de créer un classifieur capable de reconnaître l'écriture manuscrite de nombres en reconnaissance, donc les chiffres de 0 à 9. La résolution de ce problème dans R est présentée [ici](https://tensorflow.rstudio.com/tutorials/beginners/). C'est un excellent point de départ si vous voulez vous lancer dans l'apprentissage profond. Dans le cadre de ce cours, nous n'irons cependant pas plus loin. Sachez toutefois que les meilleurs classifieurs en apprentissage profond sont actuellement capables de faire aussi bien, *voire mieux* dans la lecture de nombres en écriture manuscrite qu'un opérateur humain !
 
 ```{=html}
 <!--{r assign_C02Ga_optimisation_II, echo=FALSE, results='asis'}
@@ -507,7 +507,7 @@ if (exists("assignment2"))
 
 `r learnr("C03Lb_ml3", title = "SVM et réseaux de neurones", toc = "SVM et réseaux de neurones")`
 
-##### À vous de jouer ! {.unnumbered}
+Complétez à présent votre projet individuel.
 
 ```{r assign_C03Ia_cardiovascular_II, echo=FALSE, results='asis'}
 if (exists("assignment"))
@@ -551,7 +551,7 @@ Cette [vidéo](https://www.youtube.com/watch?v=UOvPeC8WOt8&feature=youtu.be) exp
 
 ## Challenge
 
-Vous avez dû apprendre beaucoup de techniques complémentaires pour arriver à entraîner correctement votre classifieur (différents algorithmes, validation croisée, matrice de confusion, métriques, courbes ROC...). Nous vous proposons maintenant de mettre tout cela en application sous la forme d'un challenge. Vous allez travailler par équipes en binômes et vous tenterez de créer le meilleur classifieur pour détecter les vins excellents parmi un ensemble de vins de toutes catégories. Mais attention, l'exercice n'est pas facile. Vous allez devoir ruser pour gagner des places dans le classement, et mettre en œuvre toutes les techniques étudiées dans les modules 1 à 3 pour arriver aux meilleurs résultats !
+Vous avez dû apprendre beaucoup de techniques complémentaires pour arriver à entraîner correctement votre classifieur (différents algorithmes, validation croisée, matrice de confusion, métriques, courbes ROC...). Nous vous proposons maintenant de mettre tout cela en application sous la forme d'un challenge. Vous allez travailler individuellement et vous tenterez de créer le meilleur classifieur pour détecter les vins excellents parmi un ensemble de vins de toutes catégories. Mais attention, l'exercice n'est pas facile. Vous allez devoir ruser pour gagner des places dans le classement, et mettre en œuvre toutes les techniques étudiées dans les modules 1 à 3 pour arriver aux meilleurs résultats !
 
 ##### À vous de jouer ! {.unnumbered}
 
@@ -595,9 +595,9 @@ Vous pouvez soumettre vos résultats pendant une période de temps précise via 
 
 -   [mlr3](https://mlr3.mlr-org.com/), un autre écosystème logiciel pour le "machine learning avec R"
 
--   [Tutoriels pour l'apprentissage profond avec R](https://tensorflow.rstudio.com/tutorials/) en utilisant tensorflow, une librairie de fonctions dédiée au "deep learning".
+-   [Tutoriels pour l'apprentissage profond avec R](https://tensorflow.rstudio.com/tutorials/) en utilisant tensorflow, une librairie de fonctions dédiée à l'apprentissage profond.
 
--   [Torch for R](https://torch.mlverse.org/), une autre librairie de fonctions dédiée au "deep learning" (torch est réputé pour être plus facile et plus intuitif que Tensorflow). En anglais.
+-   [Torch for R](https://torch.mlverse.org/), une autre librairie de fonctions dédiée à l'apprentissage profond (torch est réputé pour être plus facile et plus intuitif que Tensorflow). En anglais.
 
 ## Récapitulatif des exercices
 

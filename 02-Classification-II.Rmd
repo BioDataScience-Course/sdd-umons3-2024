@@ -71,7 +71,7 @@ penguins <- read("penguins", package = "palmerpenguins") %>.%
 
 Une fois notre tableau complet, correctement nettoyé et préparé, nous faisons[^02-classification-ii-1] :
 
-[^02-classification-ii-1]: Ici nous avons choisi de conserver toutes les variables dans le jeu de données. Mais nous ne pouvons utiliser que les variables quantitatives comme attributs avec l'ADL. Nous specifions donc les variables à utiliser dans la formule complète. Nous aurions aussi bien pu créer d'abord un tableau réduit à ces variables plus la classe et ensuite utiliser la formule `class ~ .` comme nous l'avons fait dans le module précédent. Vous pouvez ainsi comparer les deux approches possibles.
+[^02-classification-ii-1]: Ici nous avons choisi de conserver toutes les variables dans le jeu de données. Mais nous ne pouvons utiliser que les variables quantitatives comme attributs avec l'ADL. Nous spécifions donc les variables à utiliser dans la formule complète. Nous aurions aussi bien pu créer d'abord un tableau réduit à ces variables plus la classe et ensuite utiliser la formule `class ~ .` comme nous l'avons fait dans le module précédent. Vous pouvez ainsi comparer les deux approches possibles.
 
 ```{r}
 # ADL avec toutes les données
