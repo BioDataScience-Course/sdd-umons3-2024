@@ -619,7 +619,7 @@ if (exists("assignment"))
     course.ids = c(
       'S-BIOG-025'         = !"C05Ia_{YY}M_tsd"),
     course.urls = c(
-      'S-BIOG-025'         = "https://classroom.github.com/a/WdbADUll"),
+      'S-BIOG-025'         = "https://classroom.github.com/a/hWwQOHHP"),
     course.starts = c(
       'S-BIOG-025'         = !"{W[13]+1} 08:00:00"),
     course.ends = c(
@@ -628,6 +628,21 @@ if (exists("assignment"))
     toc = "Décomposition d'une série spatio-temporelle")
 ```
 
+```{r assign_C04Ga_tseries_II, echo=FALSE, results='asis'}
+if (exists("assignment2"))
+  assignment2("C04Ga_tseries", part = "II",
+    url = "https://github.com/BioDataScience-Course/C04Ga_tseries",
+    course.ids = c(
+      'S-BIOG-025'         = !"C04Ga_{YY}M_tseries"),
+    course.urls = c(
+      'S-BIOG-025'         = "https://classroom.github.com/a/bhc6uWnL"),
+    course.starts = c(
+      'S-BIOG-025'         = !"{W[11]+5} 08:00:00"),
+    course.ends = c(
+      'S-BIOG-025'         = !"{W[15]+2} 23:59:59"),
+    term = "Q1", level = 4, n = 4,
+    toc = "Analyse libre de séries spatio-temporelles (partie 2)")
+```
 
 <!--{r assign_C05Gb_ts_adv, echo=FALSE, results='asis'}
 if (exists("assignment2"))
